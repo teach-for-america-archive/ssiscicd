@@ -10,10 +10,9 @@ pool:
   vmImage: 'vs2017-win2016'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
 - script: |
     echo Add other tasks to build, test, and deploy your project.
     echo See https://aka.ms/yaml
+    dir 
+    dir "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\"
   displayName: 'Run a multi-line script'
