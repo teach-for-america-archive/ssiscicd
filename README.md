@@ -3,6 +3,8 @@ Demo code for SQL Server Integration Services Continuous Integration Continuous 
 
 
 Setup Agent
-- Dev Test Lab VM "Visual Studio 2019 Community (latest release) on Windows Server 2019 (x64)"
-- Download from https://marketplace.visualstudio.com/items?itemName=SSIS.SqlServerIntegrationServicesProjects&ssr=false#overview
-- Run "Microsoft.DataTools.IntegrationServices.exe /quiet" from the download directory
+- Create a Dev Test Lab environment and new Dev Test Lab VM "Visual Studio 2019 Community (latest release) on Windows Server 2019 (x64)"
+- Update to latest version of Visual Studio 2019 (why isn't this the latest version already?)
+- Open up Visual Studio 2019 Community Edition "Extensions" Menu > Manage Extensions
+- Search for and start install of SQL Server Integration Services Projects. It will require you to close VS2019. Wait like 10 minutes.
+
