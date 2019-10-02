@@ -8,3 +8,6 @@ Setup Agent
 - Open up Visual Studio 2019 Community Edition "Extensions" Menu > Manage Extensions
 - Search for and start install of SQL Server Integration Services Projects. It will require you to close VS2019. Wait like 10 minutes.
 
+Setup Developer Database/AKS
+- https://docs.microsoft.com/en-us/azure/aks/windows-container-cli
+
