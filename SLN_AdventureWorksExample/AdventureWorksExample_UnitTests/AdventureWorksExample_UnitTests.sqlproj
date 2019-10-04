@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project InitialTargets="DownloadTSQLTdacpac" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -52,9 +52,28 @@
     <SSDTExists Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets')">True</SSDTExists>
     <VisualStudioVersion Condition="'$(SSDTExists)' == ''">11.0</VisualStudioVersion>
   </PropertyGroup>
+  <PropertyGroup>
+    <tsqlt_groupId>org.teachforamerica.dataplatform</tsqlt_groupId>
+    <tsqlt_artifactId>db_tsqlt_ssis</tsqlt_artifactId>
+    <tsqlt_version>LATEST</tsqlt_version>
+    <tsqlt_feed>tfa</tsqlt_feed>
+    <tsqlt_ArchivaDownloadUrl>https://pkgs.dev.azure.com/pass2019/passdemo/_packaging/tfa/maven/v1/org/teachforamerica/dataplatform/db_tsqlt_ssis/1.0.0/db_tsqlt_ssis-1.0.0.dacpac</tsqlt_ArchivaDownloadUrl>
+  </PropertyGroup>
   <Import Condition="'$(SQLDBExtensionsRefPath)' != ''" Project="$(SQLDBExtensionsRefPath)\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="Referenced Databases" />
   </ItemGroup>
+  <ItemGroup>
+    <ArtifactReference Include="Referenced Databases\db_tsqlt_ssis.dacpac">
+      <HintPath>Referenced Databases\db_tsqlt_ssis.dacpac</HintPath>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+    </ArtifactReference>
+  </ItemGroup>
+  <Target Name="DownloadTSQLTdacpac">
+    <DownloadFile SourceUrl="$(tsqlt_ArchivaDownloadUrl)" DestinationFolder="$(MSBuildProjectDirectory)\Referenced Databases" DestinationFileName="$(tsqlt_artifactId).dacpac">
+      <Output TaskParameter="DownloadedFile" ItemName="Content" />
+    </DownloadFile>
+  </Target>
 </Project>

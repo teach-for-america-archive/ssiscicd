@@ -328,3 +328,4 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/SLN_AdventureWorksExample/AdventureWorksExample_UnitTests/Referenced Databases/db_tsqlt_ssis.dacpac
