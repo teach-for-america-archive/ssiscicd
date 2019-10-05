@@ -12,3 +12,29 @@ Setup Developer Database/AKS
 - https://docs.microsoft.com/en-us/azure/aks/windows-container-cli
 - https://docs.microsoft.com/en-us/sql/samples/adventureworks-install-configure?view=sql-server-2017
 
+Creates AKS -- note that we removed monitoring
+- az aks create \
+    -g SED-RG \
+    --name ssiscicdAKS \
+    --node-count 2 \
+    --kubernetes-version 1.14.6 \
+    --generate-ssh-keys \
+    --windows-admin-password $PASSWORD_WIN \
+    --windows-admin-username azureuser \
+    --vm-set-type VirtualMachineScaleSets \
+    --network-plugin azure
+
+Add a windows node pool
+-	az aks nodepool add \
+    --resource-group SED-RG \
+    --cluster-name ssiscicdAKS \
+    --os-type Windows \
+    --name npwin \
+    --node-count 1 \
+    --kubernetes-version 1.14.6 
+    
+Configure kubectl to hit our AKS
+- az aks get-credentials --resource-group SED-RG --name ssiscicdAKS
+
+
+	
