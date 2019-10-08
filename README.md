@@ -7,6 +7,7 @@ Setup Agent
 - Update to latest version of Visual Studio 2019 (why isn't this the latest version already?)
 - Open up Visual Studio 2019 Community Edition "Extensions" Menu > Manage Extensions
 - Search for and start install of SQL Server Integration Services Projects. It will require you to close VS2019. Wait like 10 minutes.
+- Install docker on the VM (https://docs.docker.com/install/windows/docker-ee/)
 
 Setup Developer Database/AKS
 - https://docs.microsoft.com/en-us/azure/aks/windows-container-cli
