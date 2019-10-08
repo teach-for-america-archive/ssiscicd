@@ -3,9 +3,9 @@ Demo code for SQL Server Integration Services Continuous Integration Continuous 
 
 
 Setup Agent
-. Create a Dev Test Lab environment and new Dev Test Lab VM "Visual Studio 2019 Community (latest release) on Windows 10 Enterprise N (x64)"
-. Sign in
-. Update to latest version of Visual Studio 2019 (why isn't this the latest version already?)
+- Create a Dev Test Lab environment and new Dev Test Lab VM "Visual Studio 2019 Community (latest release) on Windows 10 Enterprise N (x64)"
+- Sign in
+- Update to latest version of Visual Studio 2019 (Why isn't this the latest version already, Microsoft?)
 - Open up Visual Studio 2019 Community Edition "Extensions" Menu > Manage Extensions
 - Search for and start install of SQL Server Integration Services Projects. It will require you to close VS2019. Wait like 10 minutes.
 - Install docker on the VM (https://docs.docker.com/install/windows/docker-ee/)
