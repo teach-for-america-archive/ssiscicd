@@ -1,22 +1,23 @@
 # ssiscicd
 Demo code for SQL Server Integration Services Continuous Integration Continuous Delivery on Microsoft Azure Cloud
 
+ANNOYANCE @MICROSOFT: To use Visual Studio 2019 and Docker together, you must have Docker Desktop setup on your VM. However Docker Desktop is not available for Windows Server 2019, only Windows 10. You must use Windows Server 2019 as the base OS for windows containers running on AKS. So despite including container support in VS2019, that support is meaningless when trying to build windows containers for AKS.
 
-Setup Agent
+## Setup Agent for compiling projects only
 1. Create a Dev Test Lab environment and new Dev Test Lab VM "Visual Studio 2019 Community (latest release) on Windows 10 Enterprise N (x64)"
 1. Sign in
 1. Update to latest version of Visual Studio 2019 (Why isn't this the latest version already, Microsoft?)
 1. Open up Visual Studio 2019 Community Edition "Extensions" Menu > Manage Extensions
 1. Search for and start install of SQL Server Integration Services Projects. It will require you to close VS2019. Wait like 10 minutes.
-1. Install Docker Desktop and related requirements, per these instructions: https://docs.microsoft.com/en-us/visualstudio/containers/container-tools?view=vs-2019
-1. 
 
+## Setup VM for compiling container image
+- TBD
 
-Setup Developer Database/AKS
+## Setup Developer Database/AKS
 - https://docs.microsoft.com/en-us/azure/aks/windows-container-cli
 - https://docs.microsoft.com/en-us/sql/samples/adventureworks-install-configure?view=sql-server-2017
 
-Creates AKS -- note that we removed monitoring
+## Creates AKS -- note that we removed monitoring
 - az aks create \
     -g SED-RG \
     --name ssiscicdAKS \
