@@ -70,6 +70,11 @@
       <HintPath>Referenced Databases\db_tsqlt_ssis.dacpac</HintPath>
       <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
     </ArtifactReference>
+    <ArtifactReference Include="$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\130\SqlSchemas\master.dacpac">
+      <HintPath>$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\130\SqlSchemas\master.dacpac</HintPath>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseVariableLiteralValue>master</DatabaseVariableLiteralValue>
+    </ArtifactReference>
   </ItemGroup>
   <Target Name="DownloadTSQLTdacpac">
     <DownloadFile SourceUrl="$(tsqlt_ArchivaDownloadUrl)" DestinationFolder="$(MSBuildProjectDirectory)\Referenced Databases" DestinationFileName="$(tsqlt_artifactId).dacpac">
