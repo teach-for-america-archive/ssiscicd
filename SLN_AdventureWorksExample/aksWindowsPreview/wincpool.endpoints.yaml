@@ -1,9 +1,0 @@
-﻿apiVersion: v1
-kind: Endpoints
-metadata:
-  name: windows-containers-service
-subsets:
-  - addresses:
-      - ip: 10.240.0.47
-    ports:
-      - port: 1433
