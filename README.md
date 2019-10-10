@@ -23,7 +23,7 @@ ANNOYANCE @MICROSOFT: In order to deploy dacpacs which reference the master db, 
 - az aks create \
     -g SED-RG \
     --name ssiscicdAKS \
-    --node-count 2 \
+    --node-count 1 \
     --kubernetes-version 1.14.6 \
     --generate-ssh-keys \
     --windows-admin-password $PASSWORD_WIN \
