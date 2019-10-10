@@ -23,7 +23,7 @@ ANNOYANCE @MICROSOFT: In order to deploy dacpacs which reference the master db, 
 - PASSWORD_WIN="<Y0u4Passwo3dGo3sH!r!>"
 
 - az aks create \
-    -g SED-RG \
+    -g <yourResourceGroup> \
     --name ssiscicdAKS \
     --node-count 1 \
     --kubernetes-version 1.14.6 \
@@ -34,8 +34,8 @@ ANNOYANCE @MICROSOFT: In order to deploy dacpacs which reference the master db, 
     --network-plugin azure
 
 ### Add a windows node pool
--	az aks nodepool add \
-    --resource-group SED-RG \
+- az aks nodepool add \
+    --resource-group <yourResourceGroup> \
     --cluster-name ssiscicdAKS \
     --os-type Windows \
     --name npwin \
