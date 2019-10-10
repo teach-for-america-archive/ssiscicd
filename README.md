@@ -22,8 +22,8 @@ ANNOYANCE @MICROSOFT: In order to deploy dacpacs which reference the master db, 
 ### Creates AKS -- note that we removed monitoring
 - PASSWORD_WIN="<Y0u4Passwo3dGo3sH!r!>"
 
-- az aks create \
-    -g <yourResourceGroup> \
+- az aks create \\
+    -g \<yourResourceGroup\> \\
     --name ssiscicdAKS \
     --node-count 1 \
     --kubernetes-version 1.14.6 \
