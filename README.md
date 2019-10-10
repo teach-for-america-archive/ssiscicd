@@ -19,7 +19,9 @@ ANNOYANCE @MICROSOFT: In order to deploy dacpacs which reference the master db, 
 - https://docs.microsoft.com/en-us/azure/aks/windows-container-cli
 - https://docs.microsoft.com/en-us/sql/samples/adventureworks-install-configure?view=sql-server-2017
 
-## Creates AKS -- note that we removed monitoring
+### Creates AKS -- note that we removed monitoring
+- PASSWORD_WIN="<Y0u4Passwo3dGo3sH!r!>"
+
 - az aks create \
     -g SED-RG \
     --name ssiscicdAKS \
