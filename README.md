@@ -20,10 +20,10 @@ ANNOYANCE @MICROSOFT: In order to deploy dacpacs which reference the master db, 
 - https://docs.microsoft.com/en-us/sql/samples/adventureworks-install-configure?view=sql-server-2017
 
 ### Creates AKS -- note that we removed monitoring
-- PASSWORD_WIN="<Y0u4Passwo3dGo3sH!r!>"
+```PASSWORD_WIN="<Y0u4Passwo3dGo3sH!r!>"
 
-- az aks create \\
-    -g \<yourResourceGroup\> \\
+az aks create \ 
+    -g <yourResourceGroup> \ 
     --name ssiscicdAKS \
     --node-count 1 \
     --kubernetes-version 1.14.6 \
@@ -32,18 +32,17 @@ ANNOYANCE @MICROSOFT: In order to deploy dacpacs which reference the master db, 
     --windows-admin-username azureuser \
     --vm-set-type VirtualMachineScaleSets \
     --network-plugin azure
+```
 
 ### Add a windows node pool
-- az aks nodepool add \
+```az aks nodepool add \
     --resource-group <yourResourceGroup> \
     --cluster-name ssiscicdAKS \
     --os-type Windows \
     --name npwin \
     --node-count 1 \
-    --kubernetes-version 1.14.6 
+    --kubernetes-version 1.14.6
+```
     
 ### Configure kubectl to hit our AKS
-- az aks get-credentials --resource-group SED-RG --name ssiscicdAKS
-
-
-	
+`az aks get-credentials --resource-group <yourResourceGroup> --name ssiscicdAKS`	
