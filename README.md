@@ -33,7 +33,7 @@ ANNOYANCE @MICROSOFT: In order to deploy dacpacs which reference the master db, 
     --vm-set-type VirtualMachineScaleSets \
     --network-plugin azure
 
-Add a windows node pool
+### Add a windows node pool
 -	az aks nodepool add \
     --resource-group SED-RG \
     --cluster-name ssiscicdAKS \
@@ -42,7 +42,7 @@ Add a windows node pool
     --node-count 1 \
     --kubernetes-version 1.14.6 
     
-Configure kubectl to hit our AKS
+### Configure kubectl to hit our AKS
 - az aks get-credentials --resource-group SED-RG --name ssiscicdAKS
 
 
