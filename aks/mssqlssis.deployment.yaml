@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mssqlssis-deployment
+  labels:
+    app: mssqlssis-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mssqlssis-db
+  template:
+    metadata:
+      labels:
+        app: mssqlssis-db
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": windows
+      containers:
+      - name: mssqlssis-db
+        image: sedcontainerregistry01.azurecr.io/mssqlssis
+        env:
+        - name: sa_password
+          value: "W3!come0001"
+        resources:
+          limits:
+            cpu: 1
+            memory: 4G
+          requests:
+            cpu: .1
+            memory: 300M
+        ports:
+          - containerPort: 80
+            name: other 
+            protocol: TCP
+          - containerPort: 8080
+            name: wiremock
+            protocol: TCP
+          - containerPort: 1433
+            name: mssql
+            protocol: TCP
+      imagePullSecrets:
+      - name: regcred
+
