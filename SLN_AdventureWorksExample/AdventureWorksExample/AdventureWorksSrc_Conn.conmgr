@@ -1,0 +1,24 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="AdventureWorksSrc_Conn"
+  DTS:DTSID="{22437D6D-6444-4537-A878-CCCAD1147C28}"
+  DTS:CreationName="OLEDB">
+  <DTS:PropertyExpression
+    DTS:Name="ConnectionString">@[$Project::AdventureWorksSrc_Conn_ConnectionString]</DTS:PropertyExpression>
+  <DTS:PropertyExpression
+    DTS:Name="InitialCatalog">@[$Project::AdventureWorksSrc_Conn_InitialCatalog]</DTS:PropertyExpression>
+  <DTS:PropertyExpression
+    DTS:Name="Password">@[$Project::AdventureWorksSrc_Conn_Password]</DTS:PropertyExpression>
+  <DTS:PropertyExpression
+    DTS:Name="ServerName">@[$Project::AdventureWorksSrc_Conn_ServerName]</DTS:PropertyExpression>
+  <DTS:PropertyExpression
+    DTS:Name="UserName">@[$Project::AdventureWorksSrc_Conn_UserName]</DTS:PropertyExpression>
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=52.151.240.134,21433;User ID=sa;Initial Catalog=AdventureWorksSrc;Provider=SQLOLEDB.1;Application Name=SSIS-AdventureWorksExample-{22437D6D-6444-4537-A878-CCCAD1147C28}52.151.240.134,21433.AdventureWorksSrc.sa;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAASVJ5kVldakCPV07eAxZQnQAAAAACAAAAAAAQZgAAAAEAACAAAABCqXJ45+MjdwByS4D+VKMjm5m1kzfn+Nz7Uv2whcZKTAAAAAAOgAAAAAIAACAAAABX5xoSY9yehdAzz75F6camBJSvoCi1VtZN2Vod/ptuSYAAAAABT9N6qaSf1Cf7R90KOSsnJV7DCMZ96YUcjn+xEWJUB57tGNZmkdW+tDpE6cF77ugZLs/5ssT3QgY0khXyRcy2EwwFRJbDJ600MQr8Z7jKO0VrlWlIiY7Eh1afFrwaVT0neqaRmxoouMKoh01pzoerrb6JkHRoKE7GahhvchpsLEAAAACASJ1JnpJ8hTdyxOarqDWM8KnJn+qaOxfmKlA0ugUBr9osu5IVmIIGHjNeeuEKcXUxfyfyuBdaCjIMosx+dzaU</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

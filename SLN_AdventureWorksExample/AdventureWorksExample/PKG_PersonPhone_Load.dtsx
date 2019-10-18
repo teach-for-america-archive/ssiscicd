@@ -5,48 +5,17 @@
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="elizabethbar003"
   DTS:CreatorName="elizabethbar003\elizabethbaron"
+  DTS:DelayValidation="True"
   DTS:DTSID="{91B773A9-9691-4C92-A775-20C6B75AA308}"
   DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="15.0.1301.433"
   DTS:LocaleID="1033"
   DTS:ObjectName="PKG_PersonPhone_Load"
   DTS:PackageType="5"
-  DTS:VersionBuild="7"
-  DTS:VersionGUID="{757EED5E-869F-4D53-B89A-A8F739138BC5}">
+  DTS:VersionBuild="20"
+  DTS:VersionGUID="{90B9B424-EDFB-44FF-ADD8-BB88815574A9}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
-  <DTS:ConnectionManagers>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[AdventureWorksSrc_Conn]"
-      DTS:CreationName="OLEDB"
-      DTS:DTSID="{16A24F6B-003D-415A-B04D-51170B8DF69F}"
-      DTS:ObjectName="AdventureWorksSrc_Conn">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=52.151.240.134,21433;User ID=sa;Initial Catalog=AdventureWorksSrc;Provider=SQLOLEDB.1;Application Name=SSIS-PLG_PersonPhone_Load_NY-{16A24F6B-003D-415A-B04D-51170B8DF69F}52.151.240.134,21433.AdventureWorksSrc.sa;Auto Translate=False;">
-          <DTS:Password
-            DTS:Name="Password"
-            Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAASVJ5kVldakCPV07eAxZQnQAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAA8oRDNBl77VpzV3qs73wiREP4iT6uvr23XtPDYCxZWngAAAAAOgAAAAAIAACAAAAAxcZrYNQeVVXo9tcxkEv6mBSMxy36J8CFCTmRc+Aj5dCAAAACUiUILwGKseVgE3VRWdKLdxoFGRIJPrwdRcKMa7ReKvkAAAACkgz2fALy/D66Xlqjh7N3MYcxYA/EHul00IAl5ihDWZJCzJgDY2uWAjeeXQPVrRmGOHSvaF47Tc9iqhq+SBnqy</DTS:Password>
-        </DTS:ConnectionManager>
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[AdventureWorksTgt_Conn]"
-      DTS:CreationName="OLEDB"
-      DTS:DTSID="{F0892C87-2D6B-4675-9643-F75AF94BA4AC}"
-      DTS:ObjectName="AdventureWorksTgt_Conn">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=52.151.240.134,21433;User ID=sa;Initial Catalog=AdventureWorksTgt;Provider=SQLOLEDB.1;Application Name=SSIS-PLG_PersonPhone_Load_NY-{F0892C87-2D6B-4675-9643-F75AF94BA4AC}52.151.240.134,21433.AdventureWorksTgt.sa;Auto Translate=False;">
-          <DTS:Password
-            DTS:Name="Password"
-            Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAASVJ5kVldakCPV07eAxZQnQAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADD2YJmE+zm5oc3qz5yzitlJOOpj2YnASli4b1zyUteLAAAAAAOgAAAAAIAACAAAADgAJ13RJmO+munLLD6CWyIN3cv0TwGnLW2ylj0MTArkCAAAAD1DIoQc2OSIPmTOCUHrOfwTkgyjxjMbesAGwXE4Hf850AAAAD0XuAo7uuQazmY+JLqR2JxCTdnXuqYDeszhUpRQ0DxCd3Xl2r2P+iFqvwYne0fCazjyQNyB/0On/JBFGUO5cJi</DTS:Password>
-        </DTS:ConnectionManager>
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-  </DTS:ConnectionManagers>
   <DTS:Variables />
   <DTS:Executables>
     <DTS:Executable
@@ -259,8 +228,8 @@
               <connections>
                 <connection
                   refId="Package\Load Tgt PersonPhone Table\Extract PersonPhone.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[AdventureWorksSrc_Conn]"
-                  connectionManagerRefId="Package.ConnectionManagers[AdventureWorksSrc_Conn]"
+                  connectionManagerID="{22437D6D-6444-4537-A878-CCCAD1147C28}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[AdventureWorksSrc_Conn]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -409,7 +378,7 @@
                   dataType="System.Int32"
                   description="Specifies the mode used to access the database."
                   name="AccessMode"
-                  typeConverter="AccessMode">0</property>
+                  typeConverter="AccessMode">3</property>
                 <property
                   dataType="System.Boolean"
                   description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
@@ -421,7 +390,7 @@
                 <property
                   dataType="System.String"
                   description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
-                  name="FastLoadOptions"></property>
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
                 <property
                   dataType="System.Int32"
                   description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
@@ -430,8 +399,8 @@
               <connections>
                 <connection
                   refId="Package\Load Tgt PersonPhone Table\Load PersonPhone.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[AdventureWorksTgt_Conn]"
-                  connectionManagerRefId="Package.ConnectionManagers[AdventureWorksTgt_Conn]"
+                  connectionManagerID="{D86095A6-EB5A-406E-B07C-C5EDD35D7FD2}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[AdventureWorksTgt_Conn]"
                   description="The OLE DB runtime connection used to access the database."
                   name="OleDbConnection" />
               </connections>
@@ -544,7 +513,7 @@
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{F0892C87-2D6B-4675-9643-F75AF94BA4AC}"
+          SQLTask:Connection="{D86095A6-EB5A-406E-B07C-C5EDD35D7FD2}"
           SQLTask:SqlStatementSource="TRUNCATE TABLE Person.PersonPhone;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
@@ -571,6 +540,14 @@
     <LayoutInfo>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="222,42"
+          Id="Package\Load Tgt PersonPhone Table"
+          TopLeft="370.5,191.5" />
+        <NodeLayout
+          Size="241,42"
+          Id="Package\Truncate Tgt PersonPhone Table"
+          TopLeft="365,74" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="483.5,116">
@@ -593,14 +570,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="241,42"
-          Id="Package\Truncate Tgt PersonPhone Table"
-          TopLeft="365,74" />
-        <NodeLayout
-          Size="222,42"
-          Id="Package\Load Tgt PersonPhone Table"
-          TopLeft="370.5,191.5" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -610,6 +579,10 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
+          Size="159,42"
+          Id="Package\Load Tgt PersonPhone Table\Conditional Split"
+          TopLeft="279,205" />
+        <NodeLayout
           Size="183,42"
           Id="Package\Load Tgt PersonPhone Table\Extract PersonPhone"
           TopLeft="273,81" />
@@ -617,10 +590,6 @@
           Size="173,42"
           Id="Package\Load Tgt PersonPhone Table\Load PersonPhone"
           TopLeft="275,345" />
-        <NodeLayout
-          Size="159,42"
-          Id="Package\Load Tgt PersonPhone Table\Conditional Split"
-          TopLeft="279,205" />
         <EdgeLayout
           Id="Package\Load Tgt PersonPhone Table.Paths[OLE DB Source Output]"
           TopLeft="361.5,123">

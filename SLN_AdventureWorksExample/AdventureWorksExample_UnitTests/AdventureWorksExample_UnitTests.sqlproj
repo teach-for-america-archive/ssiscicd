@@ -64,6 +64,8 @@
   <ItemGroup>
     <Folder Include="Properties" />
     <Folder Include="Referenced Databases" />
+    <Folder Include="Security" />
+    <Folder Include="UT_PKG_PersonPhone_Load" />
   </ItemGroup>
   <ItemGroup>
     <ArtifactReference Include="Referenced Databases\db_tsqlt_ssis.dacpac">
@@ -75,6 +77,10 @@
       <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
       <DatabaseVariableLiteralValue>master</DatabaseVariableLiteralValue>
     </ArtifactReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Security\UT_PKG_PersonPhone_Load.sql" />
+    <Build Include="UT_PKG_PersonPhone_Load\test ssis record reject when Phone Number is Maine-based.sql" />
   </ItemGroup>
   <Target Name="DownloadTSQLTdacpac">
     <DownloadFile SourceUrl="$(tsqlt_ArchivaDownloadUrl)" DestinationFolder="$(MSBuildProjectDirectory)\Referenced Databases" DestinationFileName="$(tsqlt_artifactId).dacpac">
