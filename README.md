@@ -5,12 +5,16 @@ ANNOYANCE @MICROSOFT: To use Visual Studio 2019 and Docker together, you must ha
 
 ANNOYANCE @MICROSOFT: In order to deploy dacpacs which reference the master db, the master.dacpac (and probably msdb.dacpac) are required to be included in the project. Why is this? It seems like sqlpackage should be smart enough to allow users to circumvent the errors, and assume that a master db exists, as an option.
 
-## Setup Agent for compiling projects only
+## Setup Agent for DevOps Pipeline
 1. Create a Dev Test Lab environment and new Dev Test Lab VM "Visual Studio 2019 Community (latest release) on Windows 10 Enterprise N (x64)"
 1. Sign in
 1. Update to latest version of Visual Studio 2019 (Why isn't this the latest version already, Microsoft?)
 1. Open up Visual Studio 2019 Community Edition "Extensions" Menu > Manage Extensions
 1. Search for and start install of SQL Server Integration Services Projects. It will require you to close VS2019. Wait like 10 minutes.
+1. Follow these instructions to setup the agent on the VM (https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-windows?view=azure-devops)
+1. Find devenv.exe. On my build box, it is here: "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE"devenv.exe
+
+
 
 ## Setup VM for compiling container image
 - Make sure to clone the master.dacpac and msdb.dacpac to the server, otherwise tsqlt will not deploy.
