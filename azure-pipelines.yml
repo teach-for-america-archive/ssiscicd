@@ -15,6 +15,7 @@ steps:
 - script: |
     SET DEVENV_HOME=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\
     "%DEVENV_HOME%"devenv.exe SLN_AdventureWorksExample.sln /Build Development /project "AdventureWorksExample\AdventureWorksExample.dtproj" /out log.txt
+    type log.txt
   workingDirectory: $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample
   displayName: Build SSIS Project
 - publish: $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development
