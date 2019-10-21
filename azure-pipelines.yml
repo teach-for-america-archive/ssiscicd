@@ -13,7 +13,7 @@ steps:
   clean: true
   path: source
 - script: |
-    SET DEVENV_HOME="C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\"
+    SET DEVENV_HOME=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\
     "%DEVENV_HOME%"devenv.exe SLN_AdventureWorksExample.sln /build Development /project  "AdventureWorksExample\AdventureWorksExample.dtproj" /projectconfig Development /out log.txt
   workingDirectory: $(Agent.BuildDirectory)\source
   displayName: Build SSIS Project
