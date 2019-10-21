@@ -17,7 +17,6 @@ steps:
     echo %DEVENV_HOME%
     dir
     "%DEVENV_HOME%"devenv.exe SLN_AdventureWorksExample.sln /Build Development /project AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt
-    type builderrors.txt
   workingDirectory: $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample
   displayName: Build SSIS Project
 - publish: $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development
