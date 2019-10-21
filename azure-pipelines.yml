@@ -16,9 +16,9 @@ steps:
     SET DEVENV_HOME=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\
     echo %DEVENV_HOME%
     dir
-    "%DEVENV_HOME%"devenv.exe AdventureWorksExample.dtproj /out builderrors.txt
+    "%DEVENV_HOME%"devenv.exe SLN_AdventureWorksExample.sln /Build Development /project AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt
     type builderrors.txt
-  workingDirectory: $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample
+  workingDirectory: $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample
   displayName: Build SSIS Project
 - publish: $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development
   artifact: AdventureWorksExample.ispac
