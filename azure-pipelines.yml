@@ -12,11 +12,10 @@ steps:
 - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
   clean: true
   path: source
-- task: VSBuild@1
+- task: PowerShell@1
+  displayName: build reports
   inputs:
-    solution: '**\*.sln'
-    msbuildArgs: '/Build Development /project AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt'
-    clean: true
-    createLogFile: true
+    scriptType: inlineScript
+    inlineScript: '& "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.com" SLN_AdventureWorksExample.sln /Build Development /project AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt'
 - publish: $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development
   artifact: AdventureWorksExample.ispac
