@@ -6,13 +6,18 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'vs2017-win2016'
+pool: default
 
 steps:
+- checkout: self  # self represents the repo where the initial Pipelines YAML file was found
+  clean: true
+  lfs: true
+  path: C:\buildrepos
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
+    cd C:\buildrepos\ssiscicd\SLN_AdventureWorksExample
     dir 
-    dir "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\"
-  displayName: 'Run a multi-line script'
+    "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE"devenv.exe SLN_AdventureWorksExample.sln /build Development /project  "AdventureWorksExample\AdventureWorksExample.dtproj" /projectconfig Development /out log.txt
+    type log.txt
+  displayName: 'Build SSIS Project'
+- publish: C:\buildrepos\ssiscicd\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development
+  artifact: AdventureWorksExample.ispac
