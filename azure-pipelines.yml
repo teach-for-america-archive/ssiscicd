@@ -12,12 +12,11 @@ steps:
 - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
   clean: true
   path: source
-- script: |
-    SET DEVENV_HOME=C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\
-    echo %DEVENV_HOME%
-    dir
-    "%DEVENV_HOME%"devenv.exe SLN_AdventureWorksExample.sln /Build Development /project AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt
-  workingDirectory: $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample
-  displayName: Build SSIS Project
+- task: VSBuild@1
+  inputs:
+    solution: '**\*.sln'
+    msbuildArgs: '/Build Development /project AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt'
+    clean: true
+    createLogFile: true
 - publish: $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development
   artifact: AdventureWorksExample.ispac
