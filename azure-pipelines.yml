@@ -12,7 +12,7 @@ steps:
 - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
   clean: true
   path: source
-- script: "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\"devenv.exe SLN_AdventureWorksExample.sln /build Development /project  "AdventureWorksExample\AdventureWorksExample.dtproj" /projectconfig Development /out log.txt
+- script: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe SLN_AdventureWorksExample.sln /build Development /project  "AdventureWorksExample\AdventureWorksExample.dtproj" /projectconfig Development /out log.txt
   workingDirectory: $(Agent.BuildDirectory)\source
   displayName: Build SSIS Project
 - publish: $(Agent.BuildDirectory)\source\ssiscicd\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development
