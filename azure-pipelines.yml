@@ -16,6 +16,6 @@ steps:
   displayName: build reports
   inputs:
     scriptType: inlineScript
-    inlineScript: '& "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.com" SLN_AdventureWorksExample.sln /Build Development /project AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt'
+    inlineScript: '& "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" SLN_AdventureWorksExample.sln /Build Development /project AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt'
 - publish: $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development
   artifact: AdventureWorksExample.ispac
