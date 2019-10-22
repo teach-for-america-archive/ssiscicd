@@ -8,7 +8,6 @@ variables:
     azureSubscriptionEndpoint: Teach For America
     azureResourceGroup: SED-RG
     kubernetesCluster: ssiscicdAKS
-    namespace: $(Date:yyyyMMdd)$(Rev:-r)
 
 trigger:
 - master
@@ -46,7 +45,7 @@ steps:
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     command: 'create'
-    arguments: namespace pipeline-$(namespace)
+    arguments: namespace pipeline-$(buildName)
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
@@ -70,7 +69,7 @@ steps:
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     command: 'delete'
-    arguments: namespace pipeline-$(namespace)
+    arguments: namespace pipeline-$(buildName)
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
