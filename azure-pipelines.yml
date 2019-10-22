@@ -26,16 +26,50 @@ steps:
 - publish: $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development
   artifact: AdventureWorksExample.ispac
 - task: Kubernetes@1
-  displayName: kubectl apply
+  displayName: kubectl get namespaces
   inputs:
     connectionType: 'Azure Resource Manager'
     azureSubscriptionEndpoint: 'Teach For America'
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     command: 'get'
-    arguments: 'pods'
+    arguments: 'namespaces'
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
-
-
+- task: Kubernetes@1
+  displayName: kubectl create namespace for build
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: 'Teach For America'
+    azureResourceGroup: '$(azureResourceGroup)'
+    kubernetesCluster: '$(kubernetesCluster)'
+    command: 'create'
+    arguments: 'namespace $(Build.DefinitionName)'
+    secretType: 'dockerRegistry'
+    containerRegistryType: 'Azure Container Registry'
+    outputFormat: 'yaml'
+- task: Kubernetes@1
+  displayName: kubectl get namespaces
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: 'Teach For America'
+    azureResourceGroup: '$(azureResourceGroup)'
+    kubernetesCluster: '$(kubernetesCluster)'
+    command: 'get'
+    arguments: 'namespaces'
+    secretType: 'dockerRegistry'
+    containerRegistryType: 'Azure Container Registry'
+    outputFormat: 'yaml'
+- task: Kubernetes@1
+  displayName: kubectl delete namespace
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: 'Teach For America'
+    azureResourceGroup: '$(azureResourceGroup)'
+    kubernetesCluster: '$(kubernetesCluster)'
+    command: 'delete'
+    arguments: 'namespace $(Build.DefinitionName)'
+    secretType: 'dockerRegistry'
+    containerRegistryType: 'Azure Container Registry'
+    outputFormat: 'yaml'
