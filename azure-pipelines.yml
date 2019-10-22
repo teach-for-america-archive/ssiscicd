@@ -32,8 +32,9 @@ steps:
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     command: 'get'
-    arguments: 'pods -o wide'
+    arguments: 'pods'
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
+    outputFormat: 'yaml'
 
 
