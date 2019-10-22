@@ -4,7 +4,7 @@
 # https://aka.ms/yaml
 
 variables:
-    azureSubscriptionEndpoint: TeachForAmerica
+    azureSubscriptionEndpoint: Teach For America
     azureResourceGroup: SED-RG
     kubernetesCluster: ssiscicdAKS
 
