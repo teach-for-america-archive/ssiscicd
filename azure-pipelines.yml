@@ -28,7 +28,7 @@ steps:
   displayName: kubectl apply
   inputs:
     connectionType: 'Azure Resource Manager'
-    azureSubscriptionEndpoint: '$(azureSubscriptionEndpoint)'
+    azureSubscriptionEndpoint: 'Teach For America'
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     command: 'get'
