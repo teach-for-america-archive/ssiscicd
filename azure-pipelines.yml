@@ -2,7 +2,7 @@
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
-name: $(Date:yyyyMMdd)$(Rev:-r)
+name: &buildname $(Date:yyyyMMdd)$(Rev:-r)
 
 variables:
     azureSubscriptionEndpoint: Teach For America
@@ -45,7 +45,7 @@ steps:
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     command: 'create'
-    arguments: namespace pipeline-$(buildName)
+    arguments: namespace pipeline-*buildname
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
@@ -69,7 +69,7 @@ steps:
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     command: 'delete'
-    arguments: namespace pipeline-$(buildName)
+    arguments: namespace pipeline-*buildname
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
