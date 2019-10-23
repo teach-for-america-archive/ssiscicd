@@ -35,7 +35,7 @@ steps:
     targetType: 'inline'
     script: |
       # Write your PowerShell commands here.
-      & mvn.cmd -s $(maven-server-credential) -Durl=\"https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1\" -Dversion=\"1.0.$(Build.BuildId)\" -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file
+      & mvn.cmd -s $env:MAVEN-SERVER-CREDENTIALS -Durl=\"https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1\" -Dversion=\"1.0.$(Build.BuildId)\" -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file
 - task: Kubernetes@1
   displayName: kubectl get namespaces
   inputs:
