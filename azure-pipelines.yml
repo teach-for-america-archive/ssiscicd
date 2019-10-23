@@ -77,7 +77,7 @@ steps:
     kubernetesCluster: '$(kubernetesCluster)'
     namespace: 'pipeline-$(Build.BuildNumber)'
     command: 'apply'
-    arguments: '-f source\aks\mssqlssis.deployment.yaml'
+    arguments: '-f aks\mssqlssis.deployment.yaml'
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
