@@ -19,15 +19,23 @@ steps:
   clean: true
   path: source
 - task: PowerShell@1
-  displayName: build reports
+  displayName: Build SSIS ispac file
   inputs:
     scriptType: inlineScript
     inlineScript: '& "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\SLN_AdventureWorksExample.sln /Build Development /project $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt'
 - task: PublishBuildArtifacts@1
+  displayName: Publish SSIS ispac file to Pipeline Build Artifacts
   inputs:
     PathtoPublish: '$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development'
     ArtifactName: 'AdventureWorksExample.ispac'
     publishLocation: 'Container'
+- task: PowerShell@2
+  displayName: Publish SSIS ispac file to Azure DevOps Artifacts
+  inputs:
+    targetType: 'inline'
+    script: |
+      # Write your PowerShell commands here.
+      & mvn.cmd -s $(maven-server-credential) -Durl=\"https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1\" -Dversion=\"1.0.$(Build.BuildId)\" -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file
 - task: Kubernetes@1
   displayName: kubectl get namespaces
   inputs:
