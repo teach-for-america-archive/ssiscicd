@@ -45,7 +45,7 @@ steps:
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     command: 'create'
-    arguments: namespace pipeline-$(BuildID)
+    arguments: namespace pipeline-$(Build.BuildId)
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
@@ -69,7 +69,7 @@ steps:
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     command: 'delete'
-    arguments: namespace pipeline-$(BuildID)
+    arguments: namespace pipeline-$(Build.BuildId)
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
