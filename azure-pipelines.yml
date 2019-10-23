@@ -23,8 +23,11 @@ steps:
   inputs:
     scriptType: inlineScript
     inlineScript: '& "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\SLN_AdventureWorksExample.sln /Build Development /project $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt'
-- publish: $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development
-  artifact: AdventureWorksExample.ispac
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development'
+    ArtifactName: 'AdventureWorksExample.ispac'
+    publishLocation: 'Container'
 - task: Kubernetes@1
   displayName: kubectl get namespaces
   inputs:
