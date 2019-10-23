@@ -1,9 +1,10 @@
 # script to deploy ssis ispac file and run the file
 
 param(
-	[string]$ProjectFilePath,
-	[string]$ProjectName,
-	[String[]]$PackageNames
+	[string]$IspacUrl,
+        [string]$ProjectFile,
+        [string]$ProjectName,
+        [String[]]$PackageNames
 )
 
 # Load the IntegrationServices Assembly  
@@ -47,9 +48,34 @@ while ($true){
 
 $TargetFolderName = "TestProjectFolder"
 
-# Create the target folder
-$folder = New-Object $ISNamespace".CatalogFolder" ($catalog, $TargetFolderName, "Folder description")
-$folder.Create()
+$folder = $catalog.Folders[$TargetFolderName]
+Write-Host "folderExists: $folderExists"
+
+if(!$folder){
+    # Create the target folder
+    $folder = New-Object $ISNamespace".CatalogFolder" ($catalog, $TargetFolderName, "Folder description")
+    $folder.Create()
+    Write-Host "Folder created: " + $folder
+}
+
+##$IspacUrl - url to download from Azure blob storage
+
+Write-Host "Downloading " $IspacUrl " ispac file ..."
+
+$targetDir="C:\SSIS_ISPACS"
+
+if( -Not (Test-Path -Path $targetDir ) )
+{
+    New-Item -ItemType directory -Path $targetDir
+    Write-Host "Folder created: " + $targetDir
+}
+else{
+    Write-Host "$targetDir Folder exists: "
+}
+
+Invoke-WebRequest -Uri $IspacUrl -UseBasicParsing -OutFile "C:\SSIS_ISPACS\$ProjectFile"
+
+$ProjectFilePath="C:\SSIS_ISPACS\$ProjectFile"
 
 Write-Host "Folder: " + $folder
 Write-Host "Deploying " $ProjectName " project ..."
