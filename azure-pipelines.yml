@@ -62,6 +62,17 @@ steps:
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
 - task: Kubernetes@1
+  displayName: kubectl setup secret to container registry in namespace
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: 'Teach For America'
+    azureResourceGroup: '$(azureResourceGroup)'
+    kubernetesCluster: '$(kubernetesCluster)'
+    namespace: 'pipeline-$(Build.BuildNumber)'
+    command: 'create'
+    arguments: 'secret docker-registry regcred --docker-server=$(docker-server) --docker-username=$(docker-username) --docker-password=$(docker-password) --docker-email=$(docker-email)'
+    outputFormat: 'yaml'
+- task: Kubernetes@1
   displayName: kubectl delete namespace
   inputs:
     connectionType: 'Azure Resource Manager'
