@@ -36,7 +36,7 @@ steps:
     arguments: 'namespaces'
     outputFormat: 'yaml'
 - task: Kubernetes@1
-  displayName: kubectl create namespace for build
+  displayName: kubectl create namespace pipeline-$(Build.BuildNumber)
   inputs:
     connectionType: 'Azure Resource Manager'
     azureSubscriptionEndpoint: 'Teach For America'
@@ -46,19 +46,7 @@ steps:
     arguments: namespace pipeline-$(Build.BuildNumber)
     outputFormat: 'yaml'
 - task: Kubernetes@1
-  displayName: kubectl get namespaces
-  inputs:
-    connectionType: 'Azure Resource Manager'
-    azureSubscriptionEndpoint: 'Teach For America'
-    azureResourceGroup: '$(azureResourceGroup)'
-    kubernetesCluster: '$(kubernetesCluster)'
-    command: 'get'
-    arguments: 'namespaces'
-    secretType: 'dockerRegistry'
-    containerRegistryType: 'Azure Container Registry'
-    outputFormat: 'yaml'
-- task: Kubernetes@1
-  displayName: kubectl setup secret to container registry in namespace
+  displayName: kubectl setup secret to container registry in namespace pipeline-$(Build.BuildNumber)
   inputs:
     connectionType: 'Azure Resource Manager'
     azureSubscriptionEndpoint: 'Teach For America'
@@ -69,7 +57,7 @@ steps:
     arguments: 'secret docker-registry regcred --docker-server=$(docker-server) --docker-username=$(docker-username) --docker-password=$(docker-password) --docker-email=$(docker-email)'
     outputFormat: 'yaml'
 - task: Kubernetes@1
-  displayName: kubectl apply deployment
+  displayName: kubectl apply deployment in pipeline-$(Build.BuildNumber)
   inputs:
     connectionType: 'Azure Resource Manager'
     azureSubscriptionEndpoint: 'Teach For America'
@@ -82,7 +70,7 @@ steps:
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
 - task: Kubernetes@1
-  displayName: kubectl apply deployment
+  displayName: kubectl get pods in pipeline-$(Build.BuildNumber)
   inputs:
     connectionType: 'Azure Resource Manager'
     azureSubscriptionEndpoint: 'Teach For America'
@@ -95,7 +83,20 @@ steps:
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
 - task: Kubernetes@1
-  displayName: kubectl delete namespace
+  displayName: kubectl create the service for the deployment in pipeline-$(Build.BuildNumber)
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: 'Teach For America'
+    azureResourceGroup: '$(azureResourceGroup)'
+    kubernetesCluster: '$(kubernetesCluster)'
+    namespace: 'pipeline-$(Build.BuildNumber)'
+    command: 'expose'
+    arguments: 'deployment mssqlssis-deployment --type=LoadBalancer --name=mssqlssis-service --port=21433 --target-port=1433'
+    secretType: 'dockerRegistry'
+    containerRegistryType: 'Azure Container Registry'
+    outputFormat: 'yaml'
+- task: Kubernetes@1
+  displayName: kubectl delete namespace pipeline-$(Build.BuildNumber)
   inputs:
     connectionType: 'Azure Resource Manager'
     azureSubscriptionEndpoint: 'Teach For America'
