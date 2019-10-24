@@ -40,7 +40,7 @@ steps:
   displayName: Publish SSIS ispac file to ssiscicd Artifact feed
   inputs:
     scriptType: inlineScript
-    inlineScript: '$settingsPath = "settings.xml"; Set-Content -Path $settingsPath -Value ($(maven-server-credentials)); & "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId=\"org.teachforamerica.ssiscicd.demo\" -DartifactId=ssiscicd -Dversion=1.0.$(Build.BuildId) -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd -DrepositoryReleasesEnabled=true deploy:deploy-file -e'
+    inlineScript: '$settingsPath = "settings.xml"; $xmlsnippet = $(maven-server-credentials); Set-Content -Path $settingsPath -Value ($xmlsnippet); & "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId=\"org.teachforamerica.ssiscicd.demo\" -DartifactId=ssiscicd -Dversion=1.0.$(Build.BuildId) -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd -DrepositoryReleasesEnabled=true deploy:deploy-file -e'
 - task: Kubernetes@1
   displayName: kubectl get namespaces
   inputs:
