@@ -34,7 +34,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      '& "C:\Program Files\apache-maven-3.6.2\bin\mvn" -s $env:MAVEN-SERVER-CREDENTIALS -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -Dversion=1.0.$(Build.BuildId)-SNAPSHOT -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd -DrepositorySnapshotsEnabled=true deploy:deploy-file'
+      '& "C:\Program Files\apache-maven-3.6.2\bin\mvn" -s $env:MAVEN-SERVER-CREDENTIALS -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -Dversion=1.0.$(Build.BuildId)-SNAPSHOT -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file'
 - task: Kubernetes@1
   displayName: kubectl get namespaces
   inputs:
