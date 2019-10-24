@@ -33,7 +33,7 @@ steps:
   displayName: Publish SSIS ispac file to ssiscicd Artifact feed
   inputs:
     scriptType: inlineScript
-    inlineScript: '& "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s \"$env:MAVEN-SERVER-CREDENTIALS\" -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId=\"org.teachforamerica.ssiscicd.demo\" -DartifactId=ssiscicd -Dversion=1.0.$(Build.BuildId) -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd -DrepositoryReleasesEnabled=true deploy:deploy-file -e'
+    inlineScript: 'Get-ChildItem Env:; & "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s $env:MAVENSERVERCRED -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId=\"org.teachforamerica.ssiscicd.demo\" -DartifactId=ssiscicd -Dversion=1.0.$(Build.BuildId) -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd -DrepositoryReleasesEnabled=true deploy:deploy-file -e'
 - task: Kubernetes@1
   displayName: kubectl get namespaces
   inputs:
