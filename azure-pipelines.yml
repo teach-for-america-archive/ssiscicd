@@ -39,8 +39,11 @@ steps:
 - task: PowerShell@1
   displayName: Publish SSIS ispac file to ssiscicd Artifact feed
   inputs:
-    scriptType: inlineScript
-    inlineScript: '$settingsPath = "settings.xml"; Write-Host @"$mavcred"@'
+    scriptType: 'inlineScript'
+    inlineScript: |
+      $settingsPath = "settings.xml"; Write-Host @"
+      $(mavcred)
+      "@
 # ; Set-Content -Path $settingsPath -Value ($xmlsnippet); & "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId=\"org.teachforamerica.ssiscicd.demo\" -DartifactId=ssiscicd -Dversion=1.0.$(Build.BuildId) -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd -DrepositoryReleasesEnabled=true deploy:deploy-file -e
 - task: Kubernetes@1
   displayName: kubectl get namespaces
