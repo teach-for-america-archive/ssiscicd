@@ -18,11 +18,12 @@ steps:
 - checkout: self  # self represents the repo where the initial Pipelines YAML file was found
   clean: true
   path: source
-- task: PowerShell@1
+- task: PowerShell@2
   displayName: Build SSIS ispac file
   inputs:
-    scriptType: inlineScript
-    inlineScript: '& "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\SLN_AdventureWorksExample.sln /Build Development /project $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt'
+    targetType: inline
+    script: |
+      '& "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\SLN_AdventureWorksExample.sln /Build Development /project $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt'
 - task: PublishBuildArtifacts@1
   displayName: Publish SSIS ispac file to Pipeline Build Artifacts
   inputs:
@@ -34,7 +35,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      '& "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s $env:MAVEN-SERVER-CREDENTIALS -DpomFile="" -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId=\"org.teachforamerica.ssiscicd.demo\" -DartifactId=ssiscicd -Dversion=1.0.$(Build.BuildId) -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd -DrepositoryReleasesEnabled=true deploy:deploy-file -e'
+      '& "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s $env:MAVEN-SERVER-CREDENTIALS -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId=\"org.teachforamerica.ssiscicd.demo\" -DartifactId=ssiscicd -Dversion=1.0.$(Build.BuildId) -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd -DrepositoryReleasesEnabled=true deploy:deploy-file -e'
 - task: Kubernetes@1
   displayName: kubectl get namespaces
   inputs:
