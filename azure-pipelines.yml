@@ -22,7 +22,7 @@ steps:
   displayName: Build SSIS ispac file
   inputs:
     scriptType: inlineScript
-    inlineScript: '& "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\SLN_AdventureWorksExample.sln /Build Development /project $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt'
+    inlineScript: '& "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\SLN_AdventureWorksExample.sln /Build Development /project $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt && exit %%ERRORLEVEL%%'
 - task: PublishBuildArtifacts@1
   displayName: Publish SSIS ispac file to Pipeline Build Artifacts
   inputs:
