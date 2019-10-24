@@ -22,7 +22,7 @@ steps:
   displayName: Build SSIS ispac file
   inputs:
     scriptType: inlineScript
-    inlineScript: '& "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\SLN_AdventureWorksExample.sln /Build Development /project $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt && exit %%ERRORLEVEL%%'
+    inlineScript: '& "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\SLN_AdventureWorksExample.sln /Build Development /project $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt'
 - task: PublishBuildArtifacts@1
   displayName: Publish SSIS ispac file to Pipeline Build Artifacts
   inputs:
@@ -34,7 +34,7 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      '& "C:\Program Files\apache-maven-3.6.2\bin\mvn" -s $env:MAVEN-SERVER-CREDENTIALS -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId=\"org.teachforamerica.ssiscicd.demo\" -DartifactId=ssiscicd -Dversion=1.0.$(Build.BuildId) -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file'
+      '& "C:\Program Files\apache-maven-3.6.2\bin\mvn" -s $env:MAVEN-SERVER-CREDENTIALS -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId=\"org.teachforamerica.ssiscicd.demo\" -DartifactId=ssiscicd -Dversion=1.0.$(Build.BuildId) -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file && exit %%ERRORLEVEL%%'
 - task: Kubernetes@1
   displayName: kubectl get namespaces
   inputs:
