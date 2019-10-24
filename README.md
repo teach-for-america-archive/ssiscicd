@@ -13,6 +13,11 @@ ANNOYANCE @MICROSOFT: In order to deploy dacpacs which reference the master db, 
 1. Search for and start install of SQL Server Integration Services Projects. It will require you to close VS2019. Wait like 10 minutes.
 1. Follow these instructions to setup the agent on the VM (https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-windows?view=azure-devops)
 1. Find devenv.exe. On my build box, it is here: "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE"devenv.exe
+1. Install kubectl by following these instructions https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-windows
+1. Install OpenJDK because Java is required by Maven (https://jdk.java.net/13/)
+1. Install maven by downloading and following these instructions
+   1. https://maven.apache.org/download.cgi
+   1. https://maven.apache.org/install.html
 
 
 
