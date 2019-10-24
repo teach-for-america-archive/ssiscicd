@@ -20,6 +20,7 @@ ANNOYANCE @MICROSOFT: Why does the Powershell@1 task wait for the script to fini
 1. Install maven by downloading and following these instructions
    1. https://maven.apache.org/download.cgi
    1. https://maven.apache.org/install.html
+1. Install the Azure PowerShell module phttps://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-2.8.0
 
 
 
