@@ -48,7 +48,7 @@ steps:
       $pomPath = "pom.xml"; 
       Set-Content -Path $pomPath -Value @"
       <project>
-      <modelVersion>1.0.0</modelVersion>
+      <modelVersion>4.0.0</modelVersion>
       <groupId>com.mycompany.app</groupId>
       <artifactId>my-app</artifactId>
       <version>1</version>
