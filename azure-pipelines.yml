@@ -29,6 +29,13 @@ steps:
     PathtoPublish: '$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development'
     ArtifactName: 'AdventureWorksExample.ispac'
     publishLocation: 'Container'
+# Azure Key Vault
+# Download Azure Key Vault secrets
+- task: AzureKeyVault@1
+  inputs:
+    azureSubscription: 'Teach For America'
+    KeyVaultName: 'ssiscicdAKV'
+    SecretsFilter: '*'
 - task: PowerShell@1
   displayName: Publish SSIS ispac file to ssiscicd Artifact feed
   inputs:
