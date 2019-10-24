@@ -45,7 +45,7 @@ steps:
       Set-Content -Path $settingsPath -Value @"
       $(mvncred)
       "@;
-      $mimimalPomPath = "pom.xml"; 
+      $minimalPomPath = "pom.xml"; 
       Set-Content -Path $minimalPomPath -Value @"
       <project>
       <modelVersion>4.0.0</modelVersion>
