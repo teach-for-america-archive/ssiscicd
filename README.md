@@ -5,6 +5,8 @@ ANNOYANCE @MICROSOFT: To use Visual Studio 2019 and Docker together, you must ha
 
 ANNOYANCE @MICROSOFT: In order to deploy dacpacs which reference the master db, the master.dacpac (and probably msdb.dacpac) are required to be included in the project. Why is this? It seems like sqlpackage should be smart enough to allow users to circumvent the errors, and assume that a master db exists, as an option.
 
+ANNOYANCE @MICROSOFT: Why does the Powershell@1 task wait for the script to finish and Powershell@2 does not? Very confusing, please explain. "This is a breaking change."
+
 ## Setup Agent for DevOps Pipeline
 1. Create a Dev Test Lab environment and new Dev Test Lab VM "Visual Studio 2019 Community (latest release) on Windows 10 Enterprise N (x64)"
 1. Sign in
