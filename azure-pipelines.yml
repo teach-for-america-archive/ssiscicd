@@ -102,7 +102,7 @@ steps:
     namespace: 'pipeline-$(Build.BuildNumber)'
     command: 'get'
     arguments: 'pods'
-    outputFormat: 'name'
+    outputFormat: 'json'
 - task: Kubernetes@1
   displayName: kubectl create the service for the deployment in pipeline-$(Build.BuildNumber)
   inputs:
