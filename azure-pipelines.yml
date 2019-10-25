@@ -36,9 +36,6 @@ steps:
     azureSubscription: 'Teach For America'
     KeyVaultName: 'ssiscicdAKV'
     SecretsFilter: '*'
-# It's really hard to work with double quotes in Powershell and YAML. We used this blog post to help us create settings.xml from our secret xml snippet. 
-# https://devblogs.microsoft.com/scripting/writing-double-quotation-marks-to-a-text-file-using-windows-powershell/
-#
 # Technically we need a pom.xml file to use maven. But that seems like a lot, considering we aren't using maven to build the project (because it can't).
 # So instead, we use a simple, generic pom.xml file from https://maven.apache.org/guides/introduction/introduction-to-the-pom.html and update the values on the command line.
 - task: PowerShell@1
@@ -90,7 +87,8 @@ steps:
     kubernetesCluster: '$(kubernetesCluster)'
     namespace: 'pipeline-$(Build.BuildNumber)'
     command: 'apply'
-    arguments: '-f aks\mssqlssis.deployment.yaml'
+    useConfigurationFile: true
+    configuration: aks\mssqlssis.deployment.yaml
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
@@ -104,8 +102,6 @@ steps:
     namespace: 'pipeline-$(Build.BuildNumber)'
     command: 'get'
     arguments: 'pods'
-    secretType: 'dockerRegistry'
-    containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
 - task: Kubernetes@1
   displayName: kubectl create the service for the deployment in pipeline-$(Build.BuildNumber)
@@ -117,8 +113,6 @@ steps:
     namespace: 'pipeline-$(Build.BuildNumber)'
     command: 'expose'
     arguments: 'deployment mssqlssis-deployment --type=LoadBalancer --name=mssqlssis-service --port=21433 --target-port=1433'
-    secretType: 'dockerRegistry'
-    containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
 - task: Kubernetes@1
   displayName: kubectl delete namespace pipeline-$(Build.BuildNumber)
@@ -129,6 +123,4 @@ steps:
     kubernetesCluster: '$(kubernetesCluster)'
     command: 'delete'
     arguments: namespace pipeline-$(Build.BuildNumber)
-    secretType: 'dockerRegistry'
-    containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
