@@ -7,6 +7,8 @@ ANNOYANCE @MICROSOFT: In order to deploy dacpacs which reference the master db, 
 
 ANNOYANCE @MICROSOFT: Why does the Powershell@1 task wait for the script to finish and Powershell@2 does not? Very confusing, please explain. "This is a breaking change."
 
+ANNOYANCE @MICROSOFT: Why is not possible to extract the commandOutput easily into a variable when using Kubernetes@1? Not being able to do this means that get and describe are basically worthless when used in this task. You must write a script task instead.
+
 ## Setup Agent for DevOps Pipeline
 1. Create a Dev Test Lab environment and new Dev Test Lab VM "Visual Studio 2019 Community (latest release) on Windows 10 Enterprise N (x64)"
 1. Sign in
