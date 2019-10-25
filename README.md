@@ -22,7 +22,7 @@ ANNOYANCE @MICROSOFT: Why is not possible to extract the commandOutput easily in
 1. Install maven by downloading and following these instructions
    1. https://maven.apache.org/download.cgi
    1. https://maven.apache.org/install.html
-1. Install the Azure PowerShell module phttps://docs.microsoft.com/en-us/powershell/azure/install-az-ps?view=azps-2.8.0
+1. Install the Azure CLI https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest
 
 
 
