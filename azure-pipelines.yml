@@ -92,14 +92,22 @@ steps:
     secretType: 'dockerRegistry'
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
-- task: PowerShell@1
-  displayName: Get the name of the pod and save it to podName variable
+- task: CmdLine@2
+  displayName: Test out Azure CLI
   inputs:
-    scriptType: 'inlineScript'
-    inlineScript: |
-      Import-AzAksCredential -ResourceGroupName SED-RG -Name ssiscicdAKS;
-      $deployedPodName = & "C:\Program Files\kubernetes\kubectl" get pods -o jsonpath="{.items[0].metadata.name}";
-      Write-Host "##vso[task.setvariable variable=podName;]$deployedPodName"
+    script: |
+      az login
+      kubectl config current-context
+      kubectl get pods
+      echo Hello world
+#- task: PowerShell@1
+#  displayName: Get the name of the pod and save it to podName variable
+#  inputs:
+#    scriptType: 'inlineScript'
+#    inlineScript: |
+#      Import-AzAksCredential -ResourceGroupName SED-RG -Name ssiscicdAKS;
+#      $deployedPodName = & "C:\Program Files\kubernetes\kubectl" get pods -o jsonpath="{.items[0].metadata.name}";
+#      Write-Host "##vso[task.setvariable variable=podName;]$deployedPodName"
 - task: Kubernetes@1
   displayName: kubectl download and install ssis package in pipeline-$(Build.BuildNumber)
   inputs:
