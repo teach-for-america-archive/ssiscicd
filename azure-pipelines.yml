@@ -101,14 +101,15 @@ steps:
     kubernetesCluster: '$(kubernetesCluster)'
     namespace: 'pipeline-$(Build.BuildNumber)'
     command: 'get'
-    arguments: 'pods -o jsonpath-file=pod.txt'
+    arguments: 'pods -o "jsonpath-file=pod.txt"'
     outputFormat: 'jsonpath="{.items[0].metadata.name}"'
 - task: PowerShell@1
   displayName: Create podName variable
   inputs:
     scriptType: 'inlineScript'
     inlineScript: |
-      Get-Content -Path .\pod.txt;
+      ls
+      Get-Content -Path pod.txt;
       Write-Host "##vso[task.setvariable variable=podName;]Get-Content -Path .\pod.txt"
 - task: Kubernetes@1
   displayName: kubectl download and install ssis package in pipeline-$(Build.BuildNumber)
