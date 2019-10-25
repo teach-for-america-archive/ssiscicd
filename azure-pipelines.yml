@@ -101,8 +101,13 @@ steps:
     kubernetesCluster: '$(kubernetesCluster)'
     namespace: 'pipeline-$(Build.BuildNumber)'
     command: 'get'
-    arguments: 'pods'
+    arguments: 'pods -o jsonpath-file=pod.txt'
     outputFormat: 'jsonpath="{.items[0].metadata.name}"'
+- task: PowerShell@1
+  displayName: Create podName variable
+  inputs:
+    scriptType: inlineScript
+    inlineScript: 'Write-Host "##vso[task.setvariable variable=podName;]Get-Content -Path .\pod.txt"'
 - task: Kubernetes@1
   displayName: kubectl create the service for the deployment in pipeline-$(Build.BuildNumber)
   inputs:
