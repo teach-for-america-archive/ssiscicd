@@ -99,9 +99,8 @@ steps:
       "C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin\"az.cmd login --service-principal -u $(ssiscicdServicePrincipalURL) -p $(ssiscicdServicePrincipalPassword) --tenant $(ssiscicdTenantId)
       kubectl get pods -o jsonpath="{.items[0].metadata.name}" > temp.txt
       set /p MYPODNAME=<temp.txt
-      echo ##vso[task.setvariable variable=podName;]%MYPODNAME%
-      echo %MYPODNAME%
-      echo $(podName)
+      echo "##vso[task.setvariable variable=podName;]%MYPODNAME%"
+      set
 - task: Kubernetes@1
   displayName: kubectl download and install ssis package in pipeline-$(Build.BuildNumber)
   inputs:
