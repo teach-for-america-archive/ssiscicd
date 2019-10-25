@@ -108,7 +108,7 @@ steps:
   inputs:
     scriptType: 'inlineScript'
     inlineScript: |
-      Write-Host Get-Content -Path .\pod.txt;
+      Get-Content -Path .\pod.txt;
       Write-Host "##vso[task.setvariable variable=podName;]Get-Content -Path .\pod.txt"
 - task: Kubernetes@1
   displayName: kubectl download and install ssis package in pipeline-$(Build.BuildNumber)
