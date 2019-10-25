@@ -96,7 +96,6 @@ steps:
   displayName: Test out Azure CLI
   inputs:
     script: |
-      "C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin\az.cmd" login
       kubectl config current-context
       kubectl get pods
       echo Hello world
