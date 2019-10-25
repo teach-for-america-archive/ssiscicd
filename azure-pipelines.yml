@@ -96,6 +96,7 @@ steps:
   displayName: Test out Azure CLI
   inputs:
     script: |
+      az aks get-credentials --resource-group $(azureResourceGroup) --name myAKSCluster$(kubernetesCluster)
       kubectl config current-context
       kubectl get pods
       echo Hello world
