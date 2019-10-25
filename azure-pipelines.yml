@@ -101,8 +101,8 @@ steps:
     kubernetesCluster: '$(kubernetesCluster)'
     namespace: 'pipeline-$(Build.BuildNumber)'
     command: 'get'
-    arguments: 'pods -o "jsonpath-file=pod.txt"'
-    outputFormat: 'jsonpath="{.items[0].metadata.name}"'
+    arguments: 'pods -o jsonpath="{.items[0].metadata.name}"'
+    outputFormat: 'jsonpath-file=pod.txt'
 - task: PowerShell@1
   displayName: Create podName variable
   inputs:
