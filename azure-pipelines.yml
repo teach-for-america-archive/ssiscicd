@@ -101,6 +101,7 @@ steps:
       set /p MYPODNAME=<temp.txt
       echo "##vso[task.setvariable variable=podName;]%MYPODNAME%"
       set
+    failOnStderr: true
 - task: Kubernetes@1
   displayName: kubectl download and install ssis package in pipeline-$(Build.BuildNumber)
   inputs:
