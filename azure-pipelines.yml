@@ -54,7 +54,7 @@ steps:
       <version>1</version>
       </project>
       "@;
-      & "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId="org.teachforamerica.ssiscicd.demo" -DartifactId=ssiscicd -Dversion="1.0.$(Build.BuildId)" -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file -e
+      & "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId="org.teachforamerica.ssiscicd.demo" -DartifactId=AdventureWorksExample -Dversion="1.0.$(Build.BuildId)" -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file -e
   env:
     MAVEN_CRED: $(mvncred)
 - task: Kubernetes@1
@@ -108,6 +108,17 @@ steps:
   inputs:
     scriptType: inlineScript
     inlineScript: 'Write-Host "##vso[task.setvariable variable=podName;]Get-Content -Path .\pod.txt"'
+- task: Kubernetes@1
+  displayName: kubectl download and install ssis package in pipeline-$(Build.BuildNumber)
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: 'Teach For America'
+    azureResourceGroup: '$(azureResourceGroup)'
+    kubernetesCluster: '$(kubernetesCluster)'
+    namespace: 'pipeline-$(Build.BuildNumber)'
+    command: 'exec'
+    arguments: '$podName -- powershell.exe -File "deploy_ssis_package.ps1" arg1 arg2 arg3 '
+    outputFormat: 'yaml'
 - task: Kubernetes@1
   displayName: kubectl create the service for the deployment in pipeline-$(Build.BuildNumber)
   inputs:
