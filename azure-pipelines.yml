@@ -97,6 +97,7 @@ steps:
   inputs:
     scriptType: 'inlineScript'
     inlineScript: |
+      Import-AzAksCredential -ResourceGroupName SED-RG -Name ssiscicdAKS;
       $deployedPodName = & "C:\Program Files\kubernetes\kubectl" get pods -o jsonpath="{.items[0].metadata.name}";
       Write-Host "##vso[task.setvariable variable=podName;]$deployedPodName"
 - task: Kubernetes@1
