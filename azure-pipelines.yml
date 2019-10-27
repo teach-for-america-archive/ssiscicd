@@ -93,17 +93,19 @@ steps:
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
 - task: CmdLine@2
+  displayName: Login to Azure Cloud
+  inputs:
+    script: |
+      "C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin\"az.cmd login --service-principal -u $(ssiscicdServicePrincipalURL) -p $(ssiscicdServicePrincipalPassword) --tenant $(ssiscicdTenantId)
+- task: CmdLine@2
   displayName: Setup podName for future tasks to use
   inputs:
     script: |
-      set
-      kubectl get pods -o wide
-      "C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin\"az.cmd login --service-principal -u $(ssiscicdServicePrincipalURL) -p $(ssiscicdServicePrincipalPassword) --tenant $(ssiscicdTenantId)
+      kubectl get pods -o jsonpath="{.items[0].metadata.name}"
       kubectl get pods -o jsonpath="{.items[0].metadata.name}" > temp.txt
       set /p MYPODNAME=<temp.txt
+      echo %MYPODNAME%
       echo "##vso[task.setvariable variable=podName;]%MYPODNAME%"
-      set
-    failOnStderr: true
 - task: Kubernetes@1
   displayName: kubectl download and install ssis package in pipeline-$(Build.BuildNumber)
   inputs:
