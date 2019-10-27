@@ -101,7 +101,14 @@ steps:
     inlineScript: |
       &az login --service-principal -u $(ssiscicdServicePrincipalURL) -p $(ssiscicdServicePrincipalPassword) --tenant $(ssiscicdTenantId)
       &az aks get-credentials --resource-group $(azureResourceGroup) --name $(kubernetesCluster)
-      $content = &kubectl get pods -n pipeline-$(Build.BuildNumber) -o jsonpath="{.items[0].metadata.name}"
+      # Get all running pods in the namespace
+      $content = &kubectl get pods -n pipeline-$(Build.BuildNumber) --field-selector=status.phase=Running
+      While ($content -contains 'No resources found')
+      {
+      start-sleep -Seconds 5
+      $content = &kubectl get pods -n pipeline-$(Build.BuildNumber) --field-selector=status.phase=Running
+      }
+      $content = &kubectl get pods -n pipeline-$(Build.BuildNumber) --field-selector=status.phase=Running -o jsonpath="{.items[0].metadata.name}"
       Write-Host $content
       Write-Host "##vso[task.setvariable variable=podName;]$content"
 
