@@ -36,27 +36,28 @@ steps:
     azureSubscription: 'Teach For America'
     KeyVaultName: 'ssiscicdAKV'
     SecretsFilter: '*'
+# This step has been commented out because I can't figure out how to get a reasonable URL and "latest" working
 # Technically we need a pom.xml file to use maven. But that seems like a lot, considering we aren't using maven to build the project (because it can't).
 # So instead, we use a simple, generic pom.xml file from https://maven.apache.org/guides/introduction/introduction-to-the-pom.html and update the values on the command line.
-- task: PowerShell@1
-  displayName: Publish SSIS ispac file to ssiscicd Artifact feed
-  inputs:
-    scriptType: 'inlineScript'
-    inlineScript: |
-      $settingsPath = "settings.xml"; 
-      Set-Content -Path $settingsPath -Value $env:MAVEN_CRED;
-      $minimalPomPath = "pom.xml"; 
-      Set-Content -Path $minimalPomPath -Value @"
-      <project>
-      <modelVersion>4.0.0</modelVersion>
-      <groupId>com.mycompany.app</groupId>
-      <artifactId>my-app</artifactId>
-      <version>1</version>
-      </project>
-      "@;
-      & "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId="org.teachforamerica.ssiscicd.demo" -DartifactId=AdventureWorksExample -Dversion="1.0.$(Build.BuildId)" -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file -e
-  env:
-    MAVEN_CRED: $(mvncred)
+#- task: PowerShell@1
+#  displayName: Publish SSIS ispac file to ssiscicd Artifact feed
+#  inputs:
+#    scriptType: 'inlineScript'
+#    inlineScript: |
+#      $settingsPath = "settings.xml"; 
+#      Set-Content -Path $settingsPath -Value $env:MAVEN_CRED;
+#      $minimalPomPath = "pom.xml"; 
+#      Set-Content -Path $minimalPomPath -Value @"
+#      <project>
+#      <modelVersion>4.0.0</modelVersion>
+#      <groupId>com.mycompany.app</groupId>
+#      <artifactId>my-app</artifactId>
+#      <version>1</version>
+#      </project>
+#      "@;
+#      & "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId="org.teachforamerica.ssiscicd.demo" -DartifactId=AdventureWorksExample -Dversion="1.0.$(Build.BuildId)" -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file -e
+#  env:
+#    MAVEN_CRED: $(mvncred)
 - task: Kubernetes@1
   displayName: kubectl create namespace pipeline-$(Build.BuildNumber)
   inputs:
@@ -96,16 +97,17 @@ steps:
   displayName: Login to Azure Cloud
   inputs:
     script: |
+      @echo on
       "C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin\"az.cmd login --service-principal -u $(ssiscicdServicePrincipalURL) -p $(ssiscicdServicePrincipalPassword) --tenant $(ssiscicdTenantId)
-- task: CmdLine@2
-  displayName: Setup podName for future tasks to use
-  inputs:
-    script: |
-      kubectl get pods -o jsonpath="{.items[0].metadata.name}"
       kubectl get pods -o jsonpath="{.items[0].metadata.name}" > temp.txt
       set /p MYPODNAME=<temp.txt
+      if not exist temp.txt (echo This directory does not contain the temp.txt file.)
+      else (
+      type temp.txt
+      echo.
       echo %MYPODNAME%
-      echo "##vso[task.setvariable variable=podName;]%MYPODNAME%"
+      echo "##vso[task.setvariable variable=podName;]%MYPODNAME%")
+
 - task: Kubernetes@1
   displayName: kubectl download and install ssis package in pipeline-$(Build.BuildNumber)
   inputs:
