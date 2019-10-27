@@ -9,6 +9,7 @@ variables:
     azureResourceGroup: SED-RG
     kubernetesCluster: ssiscicdAKS
     projectName: AdventureWorksExample
+    port: 21433
 
 trigger:
 - master
@@ -123,18 +124,6 @@ steps:
       Write-Host "##vso[task.setvariable variable=podName;]$content"
 
 - task: Kubernetes@1
-  displayName: kubectl download and install ssis package in pipeline-$(Build.BuildNumber)
-  inputs:
-    connectionType: 'Azure Resource Manager'
-    azureSubscriptionEndpoint: 'Teach For America'
-    azureResourceGroup: '$(azureResourceGroup)'
-    kubernetesCluster: '$(kubernetesCluster)'
-    namespace: 'pipeline-$(Build.BuildNumber)'
-    command: 'exec'
-    arguments: '$(podName) -- powershell.exe -File SSIS_SCRIPTS/deploy_ssis_package.ps1 https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1/org/teachforamerica/ssiscicd/demo/$(projectName)/1.0.$(Build.BuildId)/$(projectName)-1.0.$(Build.BuildId).ispac $(projectName)-1.0.$(Build.BuildId).ispac $(projectName)'
-    outputFormat: 'yaml'
-
-- task: Kubernetes@1
   displayName: kubectl create the service for the deployment in pipeline-$(Build.BuildNumber)
   inputs:
     connectionType: 'Azure Resource Manager'
@@ -155,7 +144,6 @@ steps:
       &az aks get-credentials --resource-group $(azureResourceGroup) --name $(kubernetesCluster)
       # Get ipAddress for service in namespace
       $content = &kubectl get services -n pipeline-$(Build.BuildNumber) -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}"
-      Write-Host $content
       While ($content -like '*array index out of bounds*')
       {
       start-sleep -Seconds 5
@@ -170,9 +158,21 @@ steps:
   inputs:
     scriptType: 'inlineScript'
     inlineScript: |
-      &sqlpackage /Action:Publish /SourceFile:$(projectName)_UnitTests.dacpac /TargetConnectionString:Data Source=$(ipAddress);User ID=sa;Password=$(saPassword);Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;Initial Catalog=master
+      & "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe" /Action:Publish /SourceFile:$(projectName)_UnitTests.dacpac /TargetConnectionString:Data Source=$(ipAddress),$(port);User ID=sa;Password=$(saPassword);Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;Initial Catalog=master
       &sqlcmd -d $(projectName)_UnitTests -Q "EXEC [tSQLt].[RunAll]"
       &sqlcmd -d $(projectName)_UnitTests -Q ":XML ON EXEC [tSQLt].[XmlResultFormatter]" -o test-results.xml
+
+- task: Kubernetes@1
+  displayName: kubectl download and install ssis package in pipeline-$(Build.BuildNumber)
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: 'Teach For America'
+    azureResourceGroup: '$(azureResourceGroup)'
+    kubernetesCluster: '$(kubernetesCluster)'
+    namespace: 'pipeline-$(Build.BuildNumber)'
+    command: 'exec'
+    arguments: '$(podName) -- powershell.exe -File SSIS_SCRIPTS/deploy_ssis_package.ps1 https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1/org/teachforamerica/ssiscicd/demo/$(projectName)/1.0.$(Build.BuildId)/$(projectName)-1.0.$(Build.BuildId).ispac $(projectName)-1.0.$(Build.BuildId).ispac $(projectName)'
+    outputFormat: 'yaml'
 
 - task: PublishTestResults@2
   inputs:
