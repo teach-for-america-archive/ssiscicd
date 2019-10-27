@@ -140,7 +140,7 @@ steps:
   displayName: Build Unit Test dacpac
   inputs:
     solution: '**/*.sln'
-    msbuildArguments: '/t:Build $(projectName)_UnitTests\$(projectName)_UnitTests.sqlproj /maxcpucount"'
+    msbuildArguments: '/maxcpucount'
 
 - task: PowerShell@1
   displayName: TODO Deploy dacpac(s), run unit tests, and save to xml file
