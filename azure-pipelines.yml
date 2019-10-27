@@ -103,7 +103,8 @@ steps:
       &az aks get-credentials --resource-group $(azureResourceGroup) --name $(kubernetesCluster)
       # Get all running pods in the namespace
       $content = &kubectl get pods -n pipeline-$(Build.BuildNumber) --field-selector=status.phase=Running 2>&1
-      While ($content -contains 'No resources found')
+      Write-Host $content
+      While ($content --Match 'No resources found')
       {
       start-sleep -Seconds 5
       $content = &kubectl get pods -n pipeline-$(Build.BuildNumber) --field-selector=status.phase=Running 2>&1
