@@ -63,7 +63,7 @@ steps:
       </project>
       "@;
       & "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId="org.teachforamerica.ssiscicd.demo" -DartifactId=$(projectName) -Dversion="1.0.$(Build.BuildId)" -Dfile=$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)\bin\Development\$(projectName).ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file -e
-      & "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId="org.teachforamerica.ssiscicd.demo" -DartifactId=$(projectName) -Dversion="1.0.$(Build.BuildId)" -Dfile=$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)\bin\Development\$(projectName)_UnitTests.dacpac -Dpackaging=dacpac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file -e
+      & "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId="org.teachforamerica.ssiscicd.demo" -DartifactId=$(projectName) -Dversion="1.0.$(Build.BuildId)" -Dfile=$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)_UnitTests\bin\Debug\$(projectName)_UnitTests.dacpac -Dpackaging=dacpac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file -e
   env:
     MAVEN_CRED: $(mvncred)
 
