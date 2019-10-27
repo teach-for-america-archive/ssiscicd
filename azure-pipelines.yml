@@ -23,7 +23,7 @@ steps:
   displayName: Build SSIS ispac file
   inputs:
     scriptType: inlineScript
-    inlineScript: '& "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\SLN_AdventureWorksExample.sln /Build Development /project $(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\AdventureWorksExample.dtproj /out log.txt'
+    inlineScript: '& "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_$(projectName)\SLN_$(projectName).sln /Build Development /project $(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)\$(projectName).dtproj /out log.txt'
 - task: PublishBuildArtifacts@1
   displayName: Publish SSIS ispac file to Pipeline Build Artifacts
   inputs:
@@ -55,7 +55,7 @@ steps:
       <version>1</version>
       </project>
       "@;
-      & "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId="org.teachforamerica.ssiscicd.demo" -DartifactId=AdventureWorksExample -Dversion="1.0.$(Build.BuildId)" -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file -e
+      & "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId="org.teachforamerica.ssiscicd.demo" -DartifactId=$(projectName) -Dversion="1.0.$(Build.BuildId)" -Dfile=$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)\bin\Development\$(projectName).ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file -e
   env:
     MAVEN_CRED: $(mvncred)
 - task: Kubernetes@1
@@ -121,7 +121,7 @@ steps:
     kubernetesCluster: '$(kubernetesCluster)'
     namespace: 'pipeline-$(Build.BuildNumber)'
     command: 'exec'
-    arguments: '$(podName) -- powershell.exe -File SSIS_SCRIPTS/deploy_ssis_package.ps1 https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1/org/teachforamerica/ssiscicd/demo/AdventureWorksExample/1.0.$(Build.BuildId)/AdventureWorksExample-1.0.$(Build.BuildId).ispac AdventureWorksExample-1.0.$(Build.BuildId).ispac AdventureWorksExample'
+    arguments: '$(podName) -- powershell.exe -File SSIS_SCRIPTS/deploy_ssis_package.ps1 https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1/org/teachforamerica/ssiscicd/demo/$(projectName)/1.0.$(Build.BuildId)/$(projectName)-1.0.$(Build.BuildId).ispac $(projectName)-1.0.$(Build.BuildId).ispac $(projectName)'
     outputFormat: 'yaml'
 
 - task: Kubernetes@1
