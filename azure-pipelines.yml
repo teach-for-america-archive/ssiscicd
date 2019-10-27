@@ -100,7 +100,7 @@ steps:
     scriptType: 'inlineScript'
     inlineScript: |
       '& "C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin\"az.cmd login --service-principal -u $(ssiscicdServicePrincipalURL) -p $(ssiscicdServicePrincipalPassword) --tenant $(ssiscicdTenantId)'
-      '& "C:\Program Files\kubernetes\"kubectl get pods -o jsonpath="{.items[0].metadata.name}" | Out-File -FilePath .\temp.txt'
+      '& "C:\Program Files\kubernetes\"kubectl get pods -o jsonpath="{.items[0].metadata.name}"' | Out-File -FilePath .\temp.txt
       $content = [IO.File]::ReadAllText(".\temp.txt")
       Write-Host "##vso[task.setvariable variable=podName;]$content"
 
