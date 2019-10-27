@@ -158,7 +158,7 @@ steps:
   inputs:
     scriptType: 'inlineScript'
     inlineScript: |
-      & "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe" /Action:Publish /SourceFile:$(projectName)_UnitTests.dacpac /TargetConnectionString:Data Source=$(ipAddress),$(port);User ID=sa;Password=$(saPassword);Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;Initial Catalog=master
+      & "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe" /Action:Publish /SourceFile:$(projectName)_UnitTests.dacpac /TargetConnectionString:"Data Source=$(ipAddress),$(port);User ID=sa;Password=$(saPassword);Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;Initial Catalog=master"
       &sqlcmd -d $(projectName)_UnitTests -Q "EXEC [tSQLt].[RunAll]"
       &sqlcmd -d $(projectName)_UnitTests -Q ":XML ON EXEC [tSQLt].[XmlResultFormatter]" -o test-results.xml
 
