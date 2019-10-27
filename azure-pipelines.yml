@@ -47,7 +47,7 @@ steps:
 # Technically we need a pom.xml file to use maven. But that seems like a lot, considering we aren't using maven to build the project (because it can't).
 # So instead, we use a simple, generic pom.xml file from https://maven.apache.org/guides/introduction/introduction-to-the-pom.html and update the values on the command line.
 - task: PowerShell@1
-  displayName: Publish SSIS ispac file to ssiscicd Artifact feed
+  displayName: Publish ispac and dacpac files to ssiscicd Artifact feed
   inputs:
     scriptType: 'inlineScript'
     inlineScript: |
