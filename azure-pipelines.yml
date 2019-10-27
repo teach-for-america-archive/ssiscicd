@@ -104,7 +104,7 @@ steps:
       # Get all running pods in the namespace
       $content = &kubectl get pods -n pipeline-$(Build.BuildNumber) --field-selector=status.phase=Running 2>&1
       Write-Host $content
-      While ($content --Match 'No resources found')
+      While ($content -Match 'No resources found*')
       {
       start-sleep -Seconds 5
       $content = &kubectl get pods -n pipeline-$(Build.BuildNumber) --field-selector=status.phase=Running 2>&1
