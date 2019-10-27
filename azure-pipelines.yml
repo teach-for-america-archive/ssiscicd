@@ -96,6 +96,8 @@ steps:
   displayName: Setup podName for future tasks to use
   inputs:
     script: |
+      set
+      kubectl get pods -o wide
       "C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin\"az.cmd login --service-principal -u $(ssiscicdServicePrincipalURL) -p $(ssiscicdServicePrincipalPassword) --tenant $(ssiscicdTenantId)
       kubectl get pods -o jsonpath="{.items[0].metadata.name}" > temp.txt
       set /p MYPODNAME=<temp.txt
