@@ -24,6 +24,13 @@ steps:
   inputs:
     scriptType: inlineScript
     inlineScript: '& "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_$(projectName)\SLN_$(projectName).sln /Build Development /project $(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)\$(projectName).dtproj /out log.txt'
+
+- task: VSBuild@1
+  inputs:
+    solution: '**\*.sln'
+    vsVersion: '15.0'
+    msbuildArchitecture: 'x64'
+
 - task: PublishBuildArtifacts@1
   displayName: Publish SSIS ispac file to Pipeline Build Artifacts
   inputs:
@@ -135,12 +142,6 @@ steps:
     command: 'expose'
     arguments: 'deployment mssqlssis-deployment --type=LoadBalancer --name=mssqlssis-service --port=21433 --target-port=1433'
     outputFormat: 'yaml'
-
-- task: MSBuild@1
-  displayName: Build Unit Test dacpac
-  inputs:
-    solution: '**/*.sln'
-    msbuildArguments: '/maxcpucount'
 
 - task: PowerShell@1
   displayName: TODO Deploy dacpac(s), run unit tests, and save to xml file
