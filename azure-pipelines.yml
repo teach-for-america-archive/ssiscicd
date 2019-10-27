@@ -8,6 +8,7 @@ variables:
     azureSubscriptionEndpoint: Teach For America
     azureResourceGroup: SED-RG
     kubernetesCluster: ssiscicdAKS
+    projectName: AdventureWorksExample
 
 trigger:
 - master
@@ -26,8 +27,8 @@ steps:
 - task: PublishBuildArtifacts@1
   displayName: Publish SSIS ispac file to Pipeline Build Artifacts
   inputs:
-    PathtoPublish: '$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development'
-    ArtifactName: 'AdventureWorksExample.ispac'
+    PathtoPublish: '$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)\bin\Development'
+    ArtifactName: '$(projectName).ispac'
     publishLocation: 'Container'
 # Azure Key Vault
 # Download Azure Key Vault secrets
@@ -134,6 +135,28 @@ steps:
     command: 'expose'
     arguments: 'deployment mssqlssis-deployment --type=LoadBalancer --name=mssqlssis-service --port=21433 --target-port=1433'
     outputFormat: 'yaml'
+
+- task: MSBuild@1
+  displayName: Build Unit Test dacpac
+  inputs:
+    solution: '**/*.sln'
+    msbuildArguments: '/t:Build $(projectName)_UnitTests\$(projectName)_UnitTests.sqlproj /maxcpucount"'
+
+- task: PowerShell@1
+  displayName: TODO Deploy dacpac(s), run unit tests, and save to xml file
+  inputs:
+    scriptType: 'inlineScript'
+    inlineScript: |
+      &sqlpackage /Action:Publish /SourceFile:$(projectName)_UnitTests.dacpac /TargetConnectionString:Data Source=$(connectionString);User ID=sa;Password=$(saPassword);Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;Initial Catalog=master
+      &sqlcmd -d $(projectName)_UnitTests -Q "EXEC [tSQLt].[RunAll]'
+      &sqlcmd -d $(projectName)_UnitTests -Q ":XML ON EXEC [tSQLt].[XmlResultFormatter]" -o test-results.xml
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/TEST-*.xml'
+    failTaskOnFailedTests: true
+
 - task: Kubernetes@1
   displayName: kubectl delete namespace pipeline-$(Build.BuildNumber)
   inputs:
