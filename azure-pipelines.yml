@@ -155,6 +155,7 @@ steps:
       &az aks get-credentials --resource-group $(azureResourceGroup) --name $(kubernetesCluster)
       # Get ipAddress for service in namespace
       $content = &kubectl get services -n pipeline-$(Build.BuildNumber) -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}" 2>&1
+      Write-Host $content
       While ($content -like '*array index out of bounds*')
       {
       start-sleep -Seconds 5
