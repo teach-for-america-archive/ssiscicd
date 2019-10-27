@@ -94,19 +94,15 @@ steps:
     containerRegistryType: 'Azure Container Registry'
     outputFormat: 'yaml'
 
-- task: CmdLine@2
+- task: PowerShell@1
   displayName: Login to Azure Cloud and set podName variable
   inputs:
-    script: |
-      @echo on
-      echo
-      setlocal enabledelayedexpansion
-      "C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin\"az.cmd login --service-principal -u $(ssiscicdServicePrincipalURL) -p $(ssiscicdServicePrincipalPassword) --tenant $(ssiscicdTenantId)
-      kubectl get pods -o jsonpath="{.items[0].metadata.name}" > temp.txt
-      set /p MYPODNAME=<temp.txt
-      echo MYPODNAME=!MYPODNAME!
-      echo.!MYPODNAME!
-      echo "##vso[task.setvariable variable=podName;]!MYPODNAME!"
+    scriptType: 'inlineScript'
+    inlineScript: |
+      & "C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin\"az.cmd login --service-principal -u $(ssiscicdServicePrincipalURL) -p $(ssiscicdServicePrincipalPassword) --tenant $(ssiscicdTenantId)
+      & "C:\Program Files\kubernetes\"kubectl get pods -o jsonpath="{.items[0].metadata.name}" | Out-File -FilePath .\temp.txt
+      $content = [IO.File]::ReadAllText(".\temp.txt")
+      Write-Host "##vso[task.setvariable variable=podName;]$content"
 
 - task: Kubernetes@1
   displayName: kubectl download and install ssis package in pipeline-$(Build.BuildNumber)
