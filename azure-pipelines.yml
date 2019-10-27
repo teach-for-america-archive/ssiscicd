@@ -99,7 +99,8 @@ steps:
   inputs:
     scriptType: 'inlineScript'
     inlineScript: |
-      '& "C:\Program Files (x86)\Microsoft SDKs\Azure\CLI2\wbin\"az.cmd login --service-principal -u $(ssiscicdServicePrincipalURL) -p $(ssiscicdServicePrincipalPassword) --tenant $(ssiscicdTenantId)'
+      &az login --service-principal -u $(ssiscicdServicePrincipalURL) -p $(ssiscicdServicePrincipalPassword) --tenant $(ssiscicdTenantId)'
+      &az aks get-credentials --resource-group $(azureResourceGroup) --name $(kubernetesCluster)
       $content = &kubectl get pods -o jsonpath="{.items[0].metadata.name}"
       Write-Host $content
       Write-Host "##vso[task.setvariable variable=podName;]$content"
