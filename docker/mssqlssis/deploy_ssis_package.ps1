@@ -1,4 +1,5 @@
 # script to deploy ssis ispac file and run the file
+# Adapted from https://docs.microsoft.com/en-us/sql/integration-services/ssis-quickstart-deploy-powershell?view=sql-server-ver15
 
 param(
 	[string]$IspacUrl,
