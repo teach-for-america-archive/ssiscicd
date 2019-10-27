@@ -36,28 +36,27 @@ steps:
     azureSubscription: 'Teach For America'
     KeyVaultName: 'ssiscicdAKV'
     SecretsFilter: '*'
-# This step has been commented out because I can't figure out how to get a reasonable URL and "latest" working
 # Technically we need a pom.xml file to use maven. But that seems like a lot, considering we aren't using maven to build the project (because it can't).
 # So instead, we use a simple, generic pom.xml file from https://maven.apache.org/guides/introduction/introduction-to-the-pom.html and update the values on the command line.
-#- task: PowerShell@1
-#  displayName: Publish SSIS ispac file to ssiscicd Artifact feed
-#  inputs:
-#    scriptType: 'inlineScript'
-#    inlineScript: |
-#      $settingsPath = "settings.xml"; 
-#      Set-Content -Path $settingsPath -Value $env:MAVEN_CRED;
-#      $minimalPomPath = "pom.xml"; 
-#      Set-Content -Path $minimalPomPath -Value @"
-#      <project>
-#      <modelVersion>4.0.0</modelVersion>
-#      <groupId>com.mycompany.app</groupId>
-#      <artifactId>my-app</artifactId>
-#      <version>1</version>
-#      </project>
-#      "@;
-#      & "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId="org.teachforamerica.ssiscicd.demo" -DartifactId=AdventureWorksExample -Dversion="1.0.$(Build.BuildId)" -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file -e
-#  env:
-#    MAVEN_CRED: $(mvncred)
+- task: PowerShell@1
+  displayName: Publish SSIS ispac file to ssiscicd Artifact feed
+  inputs:
+    scriptType: 'inlineScript'
+    inlineScript: |
+      $settingsPath = "settings.xml"; 
+      Set-Content -Path $settingsPath -Value $env:MAVEN_CRED;
+      $minimalPomPath = "pom.xml"; 
+      Set-Content -Path $minimalPomPath -Value @"
+      <project>
+      <modelVersion>4.0.0</modelVersion>
+      <groupId>com.mycompany.app</groupId>
+      <artifactId>my-app</artifactId>
+      <version>1</version>
+      </project>
+      "@;
+      & "C:\Program Files\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1 -DgroupId="org.teachforamerica.ssiscicd.demo" -DartifactId=AdventureWorksExample -Dversion="1.0.$(Build.BuildId)" -Dfile=$(Agent.BuildDirectory)\source\SLN_AdventureWorksExample\AdventureWorksExample\bin\Development\AdventureWorksExample.ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-ssiscicd deploy:deploy-file -e
+  env:
+    MAVEN_CRED: $(mvncred)
 - task: Kubernetes@1
   displayName: kubectl create namespace pipeline-$(Build.BuildNumber)
   inputs:
@@ -121,7 +120,7 @@ steps:
     kubernetesCluster: '$(kubernetesCluster)'
     namespace: 'pipeline-$(Build.BuildNumber)'
     command: 'exec'
-    arguments: '$(podName) -- powershell.exe -File SSIS_SCRIPTS/deploy_ssis_package.ps1 https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1/org/teachforamerica/ssiscicd/demo/AdventureWorksExample/1.0.$(Build.BuildNumber)/AdventureWorksExample-1.0.$(Build.BuildNumber).ispac AdventureWorksExample\AdventureWorksExample.dtproj AdventureWorksExample'
+    arguments: '$(podName) -- powershell.exe -File SSIS_SCRIPTS/deploy_ssis_package.ps1 https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1/org/teachforamerica/ssiscicd/demo/AdventureWorksExample/1.0.$(Build.BuildId)/AdventureWorksExample-1.0.$(Build.BuildId).ispac AdventureWorksExample\AdventureWorksExample.dtproj AdventureWorksExample'
     outputFormat: 'yaml'
 
 - task: Kubernetes@1
