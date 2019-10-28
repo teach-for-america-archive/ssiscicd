@@ -195,7 +195,12 @@ steps:
     scriptType: 'inlineScript'
     workingFolder: '$(Agent.BuildDirectory)\source'
     inlineScript: |
-      & "C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\SQLCMD.EXE" -S $(ipAddress),$(port) -d $(projectName)_UnitTests -Q ":XML ON EXEC [tSQLt].[XmlResultFormatter]" -o test-results.xml
+      $xmlTestResultsFormatting = "xmlFormat.sql"; 
+      Set-Content -Path $xmlTestResultsFormatting -Value @"
+      :XML ON
+      EXEC [tSQLt].[XmlResultFormatter];
+      "@;
+      & "C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\SQLCMD.EXE" -S $(ipAddress),$(port) -U sa -P $(saPassword) -d $(projectName)_UnitTests -i $xmlTestResultsFormatting -o test-results.xml
 
 - task: PublishTestResults@2
   inputs:
