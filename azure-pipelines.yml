@@ -160,8 +160,8 @@ steps:
     scriptType: 'inlineScript'
     workingFolder: '$(Agent.BuildDirectory)\source'
     inlineScript: |
-      Copy-Item "$(Agent.BuildDirectory)\source\master.dacpac" -Destination "$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)_UnitTests\bin\Debug"
-      Copy-Item "$(Agent.BuildDirectory)\source\msdb.dacpac" -Destination "$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)_UnitTests\bin\Debug"
+      Copy-Item "$(Agent.BuildDirectory)\source\master.dacpac" -Destination "$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)_UnitTests\Referenced Databases"
+      Copy-Item "$(Agent.BuildDirectory)\source\msdb.dacpac" -Destination "$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)_UnitTests\Referenced Databases"
       & "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe" /Action:Publish /SourceFile:"SLN_$(projectName)\$(projectName)_UnitTests\Referenced Databases\db_tsqlt_ssis.dacpac" /TargetConnectionString:"Data Source=$(ipAddress),$(port);User ID=sa;Password=$(saPassword);Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;Initial Catalog=$(projectName)_UnitTests"
       & "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe" /Action:Publish /SourceFile:SLN_$(projectName)\$(projectName)_UnitTests\bin\Debug\$(projectName)_UnitTests.dacpac /TargetConnectionString:"Data Source=$(ipAddress),$(port);User ID=sa;Password=$(saPassword);Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;Initial Catalog=$(projectName)_UnitTests"
       & "C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\SQLCMD.EXE" -d $(projectName)_UnitTests -Q "EXEC [tSQLt].[RunAll]"
