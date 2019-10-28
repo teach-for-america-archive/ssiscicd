@@ -50,6 +50,15 @@ VALUES	(1, '207-111-2222', 1, '2018-12-20 00:00:00'),
 		(5, '207-243-3051', 1, '2018-12-24 00:00:00'),
 		(6, '212-279-2080', 2, '2018-12-25 00:00:00')
 
+
+CREATE TABLE #expected
+(
+	[BusinessEntityID] [int] NOT NULL,
+	[PhoneNumber] [dbo].[Phone] NOT NULL,
+	[PhoneNumberTypeID] [int] NOT NULL,
+	[ModifiedDate] [datetime] NOT NULL,
+)
+
 INSERT INTO #expected (
 	[BusinessEntityID],
 	[PhoneNumber],
