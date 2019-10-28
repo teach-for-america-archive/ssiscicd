@@ -49,7 +49,7 @@ steps:
 # Technically we need a pom.xml file to use maven. But that seems like a lot, considering we aren't using maven to build the project (because it can't).
 # So instead, we use a simple, generic pom.xml file from https://maven.apache.org/guides/introduction/introduction-to-the-pom.html and update the values on the command line.
 - task: PowerShell@1
-  displayName: Publish ispac and dacpac files to ssiscicd Artifact feed
+  displayName: Publish ispac file to ssiscicd Artifact feed
   inputs:
     scriptType: 'inlineScript'
     inlineScript: |
@@ -167,7 +167,7 @@ steps:
     outputFormat: 'yaml'
 
 - task: PowerShell@1
-  displayName: TODO Deploy dacpac(s), run unit tests, and save to xml file
+  displayName: Deploy unit test dacpac(s)
   inputs:
     scriptType: 'inlineScript'
     workingFolder: '$(Agent.BuildDirectory)\source'
@@ -176,8 +176,26 @@ steps:
       Copy-Item "$(Agent.BuildDirectory)\source\msdb.dacpac" -Destination "$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)_UnitTests\Referenced Databases"
       & "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe" /Action:Publish /SourceFile:"SLN_$(projectName)\$(projectName)_UnitTests\Referenced Databases\db_tsqlt_ssis.dacpac" /TargetConnectionString:"Data Source=$(ipAddress),$(port);User ID=sa;Password=$(saPassword);Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;Initial Catalog=$(projectName)_UnitTests"
       & "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe" /Action:Publish /SourceFile:SLN_$(projectName)\$(projectName)_UnitTests\bin\Debug\$(projectName)_UnitTests.dacpac /TargetConnectionString:"Data Source=$(ipAddress),$(port);User ID=sa;Password=$(saPassword);Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;Initial Catalog=$(projectName)_UnitTests"
-      & "C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\SQLCMD.EXE" -d $(projectName)_UnitTests -Q "EXEC [tSQLt].[RunAll]"
-      & "C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\SQLCMD.EXE" -d $(projectName)_UnitTests -Q ":XML ON EXEC [tSQLt].[XmlResultFormatter]" -o test-results.xml
+
+- task: Kubernetes@1
+  displayName: kubectl run unit tests in pipeline-$(Build.BuildNumber)
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: 'Teach For America'
+    azureResourceGroup: '$(azureResourceGroup)'
+    kubernetesCluster: '$(kubernetesCluster)'
+    namespace: 'pipeline-$(Build.BuildNumber)'
+    command: 'exec'
+    arguments: '$(podName) -- sqlcmd.exe -d $(projectName)_UnitTests -Q "EXEC [tSQLt].[RunAll]"'
+    outputFormat: 'yaml'
+
+- task: PowerShell@1
+  displayName: Save test results to xml file
+  inputs:
+    scriptType: 'inlineScript'
+    workingFolder: '$(Agent.BuildDirectory)\source'
+    inlineScript: |
+      & "C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\SQLCMD.EXE" -S $(ipAddress),$(port) -d $(projectName)_UnitTests -Q ":XML ON EXEC [tSQLt].[XmlResultFormatter]" -o test-results.xml
 
 - task: PublishTestResults@2
   inputs:
