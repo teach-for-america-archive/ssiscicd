@@ -54,7 +54,7 @@ VALUES	(1, '207-111-2222', 1, '2018-12-20 00:00:00'),
 CREATE TABLE #expected
 (
 	[BusinessEntityID] [int] NOT NULL,
-	[PhoneNumber] [dbo].[Phone] NOT NULL,
+	[PhoneNumber] nvarchar(25) NOT NULL,
 	[PhoneNumberTypeID] [int] NOT NULL,
 	[ModifiedDate] [datetime] NOT NULL,
 )
