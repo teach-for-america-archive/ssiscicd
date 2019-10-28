@@ -50,15 +50,13 @@ VALUES	(1, '207-111-2222', 1, '0', '2018-12-20 00:00:00'),
 		(5, '207-243-3051', 1, '2018-12-24 00:00:00'),
 		(6, '212-279-2080', 2, '2018-12-25 00:00:00')
 
-INSERT INTO #expected (
+SELECT 
 	[BusinessEntityID],
 	[PhoneNumber],
 	[PhoneNumberTypeID],
 	[ModifiedDate]
-	) 
-VALUES	(2, '641-112-2223', 2, '2018-12-21 00:00:00'),
-		(4, '864-222-3333', 4, '2018-12-23 00:00:00'),
-		(6, '212-279-2080', 2, '2018-12-25 00:00:00')
+INTO #expected
+  FROM [AdventureWorksSrc].Person.PersonPhone;
 
 /**********************************************************/
 /* Run the SSIS Package						              */
