@@ -26,10 +26,17 @@ steps:
       & "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_$(projectName)\SLN_$(projectName).sln /Build Development /project $(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)_UnitTests\$(projectName)_UnitTests.sqlproj /out log.txt
 
 - task: PublishBuildArtifacts@1
-  displayName: Publish ispac and dacpac files to Pipeline Build Artifacts
+  displayName: Publish ispac file to Pipeline Build Artifacts
   inputs:
     PathtoPublish: '$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)\bin\Development'
     ArtifactName: '$(projectName).ispac'
+    publishLocation: 'Container'
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish dacpac file to Pipeline Build Artifacts
+  inputs:
+    PathtoPublish: '$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)_UnitTests\bin\Debug'
+    ArtifactName: '$(projectName)_UnitTests.dacpac'
     publishLocation: 'Container'
 
 # Azure Key Vault
