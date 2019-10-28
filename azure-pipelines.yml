@@ -118,9 +118,13 @@ steps:
       &az aks get-credentials --resource-group $(azureResourceGroup) --name $(kubernetesCluster)
       # Get all running pods in the namespace
       $content = &kubectl get pods -n pipeline-$(Build.BuildNumber) --field-selector=status.phase=Running 2>&1
-      While ($content -like 'No resources found*')
+      # Ensure that this task does not run for more than about 90 seconds
+      $waitLimit = 90
+      $timeWaiting = 0
+      While (($content -like 'No resources found*') -and ($timeWaiting -lt $waitLimit))
       {
       start-sleep -Seconds 5
+      $timeWaiting = $timeWaiting + 5
       $content = &kubectl get pods -n pipeline-$(Build.BuildNumber) --field-selector=status.phase=Running 2>&1
       }
       $content = &kubectl get pods -n pipeline-$(Build.BuildNumber) --field-selector=status.phase=Running -o jsonpath="{.items[0].metadata.name}"
@@ -148,9 +152,13 @@ steps:
       &az aks get-credentials --resource-group $(azureResourceGroup) --name $(kubernetesCluster)
       # Get ipAddress for service in namespace
       $content = &kubectl get services -n pipeline-$(Build.BuildNumber) -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}"
-      While ([String]::IsNullOrWhiteSpace($content))
+      # Ensure that this task does not run for more than about 90 seconds
+      $waitLimit = 90
+      $timeWaiting = 0
+      While ([String]::IsNullOrWhiteSpace($content) -and ($timeWaiting -lt $waitLimit))
       {
       start-sleep -Seconds 5
+      $timeWaiting = $timeWaiting + 5
       $content = &kubectl get services -n pipeline-$(Build.BuildNumber) -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}"
       }
       $content = &kubectl get services -n pipeline-$(Build.BuildNumber) -o jsonpath="{.items[0].status.loadBalancer.ingress[0].ip}"
