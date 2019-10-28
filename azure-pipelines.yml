@@ -67,7 +67,7 @@ steps:
   displayName: kubectl create namespace pipeline-$(Build.BuildNumber)
   inputs:
     connectionType: 'Azure Resource Manager'
-    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+    azureSubscriptionEndpoint: 'Teach For America'
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     command: 'create'
@@ -78,7 +78,7 @@ steps:
   displayName: kubectl setup secret to container registry in namespace pipeline-$(Build.BuildNumber)
   inputs:
     connectionType: 'Azure Resource Manager'
-    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+    azureSubscriptionEndpoint: 'Teach For America'
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     namespace: 'pipeline-$(Build.BuildNumber)'
@@ -90,7 +90,7 @@ steps:
   displayName: kubectl apply deployment in pipeline-$(Build.BuildNumber)
   inputs:
     connectionType: 'Azure Resource Manager'
-    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+    azureSubscriptionEndpoint: 'Teach For America'
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     namespace: 'pipeline-$(Build.BuildNumber)'
@@ -123,7 +123,7 @@ steps:
   displayName: kubectl create the service for the deployment in pipeline-$(Build.BuildNumber)
   inputs:
     connectionType: 'Azure Resource Manager'
-    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+    azureSubscriptionEndpoint: 'Teach For America'
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     namespace: 'pipeline-$(Build.BuildNumber)'
@@ -153,7 +153,7 @@ steps:
   displayName: kubectl download and install ssis package in pipeline-$(Build.BuildNumber)
   inputs:
     connectionType: 'Azure Resource Manager'
-    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+    azureSubscriptionEndpoint: 'Teach For America'
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     namespace: 'pipeline-$(Build.BuildNumber)'
@@ -176,7 +176,7 @@ steps:
   displayName: kubectl run unit tests in pipeline-$(Build.BuildNumber)
   inputs:
     connectionType: 'Azure Resource Manager'
-    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+    azureSubscriptionEndpoint: 'Teach For America'
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     namespace: 'pipeline-$(Build.BuildNumber)'
@@ -207,7 +207,7 @@ steps:
   displayName: kubectl delete namespace pipeline-$(Build.BuildNumber)
   inputs:
     connectionType: 'Azure Resource Manager'
-    azureSubscriptionEndpoint: $(azureSubscriptionEndpoint)
+    azureSubscriptionEndpoint: 'Teach For America'
     azureResourceGroup: '$(azureResourceGroup)'
     kubernetesCluster: '$(kubernetesCluster)'
     command: 'delete'
