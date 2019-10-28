@@ -154,6 +154,18 @@ steps:
       Write-Host $content
       Write-Host "##vso[task.setvariable variable=ipAddress;]$content"
 
+- task: Kubernetes@1
+  displayName: kubectl download and install ssis package in pipeline-$(Build.BuildNumber)
+  inputs:
+    connectionType: 'Azure Resource Manager'
+    azureSubscriptionEndpoint: 'Teach For America'
+    azureResourceGroup: '$(azureResourceGroup)'
+    kubernetesCluster: '$(kubernetesCluster)'
+    namespace: 'pipeline-$(Build.BuildNumber)'
+    command: 'exec'
+    arguments: '$(podName) -- powershell.exe -File SSIS_SCRIPTS/deploy_ssis_package.ps1 https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1/org/teachforamerica/ssiscicd/demo/$(projectName)/1.0.$(Build.BuildId)/$(projectName)-1.0.$(Build.BuildId).ispac $(projectName)-1.0.$(Build.BuildId).ispac $(projectName)'
+    outputFormat: 'yaml'
+
 - task: PowerShell@1
   displayName: TODO Deploy dacpac(s), run unit tests, and save to xml file
   inputs:
@@ -166,18 +178,6 @@ steps:
       & "C:\Program Files\Microsoft SQL Server\150\DAC\bin\SqlPackage.exe" /Action:Publish /SourceFile:SLN_$(projectName)\$(projectName)_UnitTests\bin\Debug\$(projectName)_UnitTests.dacpac /TargetConnectionString:"Data Source=$(ipAddress),$(port);User ID=sa;Password=$(saPassword);Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;Initial Catalog=$(projectName)_UnitTests"
       & "C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\SQLCMD.EXE" -d $(projectName)_UnitTests -Q "EXEC [tSQLt].[RunAll]"
       & "C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\SQLCMD.EXE" -d $(projectName)_UnitTests -Q ":XML ON EXEC [tSQLt].[XmlResultFormatter]" -o test-results.xml
-
-- task: Kubernetes@1
-  displayName: kubectl download and install ssis package in pipeline-$(Build.BuildNumber)
-  inputs:
-    connectionType: 'Azure Resource Manager'
-    azureSubscriptionEndpoint: 'Teach For America'
-    azureResourceGroup: '$(azureResourceGroup)'
-    kubernetesCluster: '$(kubernetesCluster)'
-    namespace: 'pipeline-$(Build.BuildNumber)'
-    command: 'exec'
-    arguments: '$(podName) -- powershell.exe -File SSIS_SCRIPTS/deploy_ssis_package.ps1 https://pkgs.dev.azure.com/elizabethbaron/ssiscicd/_packaging/ssiscicd/maven/v1/org/teachforamerica/ssiscicd/demo/$(projectName)/1.0.$(Build.BuildId)/$(projectName)-1.0.$(Build.BuildId).ispac $(projectName)-1.0.$(Build.BuildId).ispac $(projectName)'
-    outputFormat: 'yaml'
 
 - task: PublishTestResults@2
   inputs:
