@@ -10,7 +10,7 @@ variables:
     kubernetesCluster: ssiscicdAKS
     projectName: AdventureWorksExample
     port: 21433
-    saPassword: W3!come0001
+    saPassword: W3lc0mE002
 
 trigger:
 - master
