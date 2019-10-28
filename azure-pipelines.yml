@@ -10,6 +10,7 @@ variables:
 trigger:
 - master
 
+# Using the default pool, because it is the one with the self-hosted agent, required by builds using Sql Server Data Tools.
 pool: default
 
 steps:
@@ -23,7 +24,7 @@ steps:
     scriptType: 'inlineScript'
     inlineScript: |
       & "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_$(projectName)\SLN_$(projectName).sln /Build Development /project $(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)\$(projectName).dtproj /out log.txt
-      & "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_$(projectName)\SLN_$(projectName).sln /Build Development /project $(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)_UnitTests\$(projectName)_UnitTests.sqlproj /out log.txt
+      & "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_$(projectName)\SLN_$(projectName).sln /Build Debug /project $(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)_UnitTests\$(projectName)_UnitTests.sqlproj /out log.txt
 
 - task: PublishBuildArtifacts@1
   displayName: Publish ispac file to Pipeline Build Artifacts
