@@ -24,6 +24,7 @@ ANNOYANCE @MICROSOFT: Why is not possible to extract the commandOutput easily in
    1. https://maven.apache.org/install.html
 1. Install the Azure CLI https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest
 1. Install sqlpackage.exe to deploy dacpacas https://docs.microsoft.com/en-us/sql/tools/sqlpackage-download?view=sql-server-ver15
+1. Install sqlcmd.exe to run unit tests from self-hosted agent https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility?view=sql-server-ver15
 
 
 
