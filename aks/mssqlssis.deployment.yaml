@@ -20,8 +20,11 @@ spec:
       - name: mssqlssis-db
         image: sedcontainerregistry01.azurecr.io/mssqlssis
         env:
-          - name: sa_password
-            value: "W3!come0001"
+        - name: sa_password
+          valueFrom:
+            secretKeyRef:
+              name: mssql
+              key: SA_PASSWORD
         resources:
           limits:
             cpu: 1
