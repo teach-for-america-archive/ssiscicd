@@ -24,7 +24,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: mssql
-              key: SA_PASSWORD
+              key: SA_PWD
         resources:
           limits:
             cpu: 1
