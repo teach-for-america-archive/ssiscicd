@@ -24,7 +24,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: mssql
-              key: SA_PWD
+              key: MSSQLSSIS-DB_SA_PWD
         resources:
           limits:
             cpu: 1
