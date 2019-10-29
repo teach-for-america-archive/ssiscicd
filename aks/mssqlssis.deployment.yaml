@@ -3,28 +3,28 @@ kind: Deployment
 metadata:
   name: mssqlssis-deployment
   labels:
-    app: mssqlssis-db
+    app: mssqlssis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mssqlssis-db
+      app: mssqlssis
   template:
     metadata:
       labels:
-        app: mssqlssis-db
+        app: mssqlssis
     spec:
       nodeSelector:
         "beta.kubernetes.io/os": windows
       containers:
-      - name: mssqlssis-db
+      - name: mssqlssis
         image: sedcontainerregistry01.azurecr.io/mssqlssis
         env:
         - name: sa_password
           valueFrom:
             secretKeyRef:
               name: mssql
-              key: MSSQL_SA_PWD
+              key: MSSQLSSIS_SA_PWD
         resources:
           limits:
             cpu: 1
