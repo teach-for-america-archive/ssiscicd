@@ -20,7 +20,7 @@ spec:
       - name: mssqlssis-db
         image: sedcontainerregistry01.azurecr.io/mssqlssis
         env:
-        - name: mssqlssis-db_SA_PASSWORD ##MSSQL_SA_PASSWORD
+        - name: sa_password
           valueFrom:
             secretKeyRef:
               name: mssql
