@@ -225,7 +225,11 @@ steps:
   inputs:
     scriptType: 'inlineScript'
     inlineScript: |
-      start-sleep -Seconds 900
+      if ($env:IS_DEMO -eq "true") {
+        start-sleep -Seconds 900
+      }
+  env:
+    IS_DEMO: $(demo)
 
 - task: Kubernetes@1
   displayName: kubectl delete namespace pipeline-$(Build.BuildNumber)
