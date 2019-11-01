@@ -21,10 +21,7 @@ spec:
         image: sedcontainerregistry01.azurecr.io/mssqlssis
         env:
         - name: sa_password
-          valueFrom:
-            secretKeyRef:
-              name: mssql
-              key: SA_PWD
+          value: MyC0m9l&xP@ssw0rd
         resources:
           limits:
             cpu: 1
