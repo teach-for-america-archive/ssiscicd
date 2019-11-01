@@ -10,13 +10,12 @@ ANNOYANCE @MICROSOFT: Why does the Powershell@1 task wait for the script to fini
 ANNOYANCE @MICROSOFT: Why is not possible to extract the commandOutput easily into a variable when using Kubernetes@1? Not being able to do this means that get and describe are basically worthless when used in this task. You must write a script task instead.
 
 ## Setup Agent for DevOps Pipeline
-1. Create a Dev Test Lab environment and new Dev Test Lab VM "Visual Studio 2019 Community (latest release) on Windows 10 Enterprise N (x64)"
-1. Sign in
-1. Update to latest version of Visual Studio 2019 (Why isn't this the latest version already, Microsoft?)
-1. Open up Visual Studio 2019 Community Edition "Extensions" Menu > Manage Extensions
-1. Search for and start install of SQL Server Integration Services Projects. It will require you to close VS2019. Wait like 10 minutes.
+1. Create a Dev Test Lab environment
+1. Create a new VM within the environment on the Windows Server 2019 Data Center image
+1. RDP into the machine
+1. Install the SQL Server Data Tools for Visual Studio 2017 using the Standalone installer, https://docs.microsoft.com/en-us/sql/ssdt/download-sql-server-data-tools-ssdt?view=sql-server-ver15#ssdt-for-vs-2017-standalone-installer 
 1. Follow these instructions to setup the agent on the VM (https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-windows?view=azure-devops)
-1. Find devenv.exe. On my build box, it is here: "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE"devenv.exe
+1. Find devenv.exe. On my build box, it is here: "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com"
 1. Install kubectl by following these instructions https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-windows
 1. Install OpenJDK because Java is required by Maven (https://jdk.java.net/13/)
 1. Install maven by downloading and following these instructions
