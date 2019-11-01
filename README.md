@@ -1,7 +1,7 @@
 # ssiscicd
 Demo code for SQL Server Integration Services Continuous Integration Continuous Delivery on Microsoft Azure Cloud
 
-ANNOYANCE @MICROSOFT: To use Visual Studio 2019 and Docker together, you must have Docker Desktop setup on your VM. However Docker Desktop is not available for Windows Server 2019, only Windows 10. You must use Windows Server 2019 as the base OS for windows containers running on AKS. So despite including container support in VS2019, that support is meaningless when trying to build windows containers for AKS.
+ANNOYANCE @MICROSOFT: To compile dockerFiles on Visual Studio 2019, you must have Docker Desktop setup on your VM. However Docker Desktop is not available for Windows Server 2019, only Windows 10. You must use Windows Server 2019 as the base OS for windows containers running on AKS. So despite including container support in VS2019, that support is meaningless when trying to build windows containers for AKS.
 
 ANNOYANCE @MICROSOFT: In order to deploy dacpacs which reference the master db, the master.dacpac (and probably msdb.dacpac) are required to be included in the project. Why is this? It seems like sqlpackage should be smart enough to allow users to circumvent the errors, and assume that a master db exists, as an option.
 
