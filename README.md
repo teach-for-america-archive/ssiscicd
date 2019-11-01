@@ -25,8 +25,11 @@ ANNOYANCE @MICROSOFT: Why is not possible to extract the commandOutput easily in
     1. Install maven by downloading and following these instructions
         1. https://maven.apache.org/download.cgi
         1. https://maven.apache.org/install.html
+        1. I unpack to C:\agentTools\maven
+        1. Add C:\agentTools\maven\apache-maven-3.6.2\bin to your path
     1. Install the Azure CLI https://docs.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest
     1. Install sqlpackage.exe to deploy dacpacas https://docs.microsoft.com/en-us/sql/tools/sqlpackage-download?view=sql-server-ver15
+    1. Install Microsoft® ODBC Driver 17 for SQL Server® - Windows, Linux, & macOS, https://www.microsoft.com/en-us/download/details.aspx?id=56567
     1. Install sqlcmd.exe to run unit tests from self-hosted agent https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility?view=sql-server-ver15
 1. Setup the agent on the VM, so that Azure DevOps Pipelines can run builds on this machine (https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-windows?view=azure-devops)
 
