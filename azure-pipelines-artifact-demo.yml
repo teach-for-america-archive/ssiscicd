@@ -1,0 +1,65 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+name: $(TeamProject)-Maven-$(Date:yyyyMMdd)$(Rev:-r)
+
+variables:
+    projectName: AdventureWorksExample
+
+trigger:
+- master
+
+# Using the default pool, because it is the one with the self-hosted agent, required by builds using Sql Server Data Tools.
+pool: default
+
+steps:
+- checkout: self  # self represents the repo where the initial Pipelines YAML file was found
+  clean: true
+  path: source
+
+- task: PowerShell@1
+  displayName: Build SSIS and Database Unit Test Projects
+  inputs:
+    scriptType: 'inlineScript'
+    inlineScript: |
+      & "C:\Program Files (x86)\Microsoft Visual Studio\2017\SQL\Common7\IDE\devenv.com" $(Agent.BuildDirectory)\source\SLN_$(projectName)\SLN_$(projectName).sln /Build Development /project $(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)\$(projectName).dtproj /out log.txt
+
+- task: PublishBuildArtifacts@1
+  displayName: Publish ispac file to Pipeline Build Artifacts
+  inputs:
+    PathtoPublish: '$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)\bin\Development'
+    ArtifactName: '$(projectName).ispac'
+    publishLocation: 'Container'
+
+# Azure Key Vault
+# Download Azure Key Vault secrets
+- task: AzureKeyVault@1
+  displayName: Retrieve Secrets from Azure Key Vault
+  inputs:
+    azureSubscription: 'Teach For America'
+    KeyVaultName: 'ssiscicdAKV'
+    SecretsFilter: '*'
+
+# Technically we need a pom.xml file to use maven. But that seems like a lot, considering we aren't using maven to build the project (because it can't).
+# So instead, we use a simple, generic pom.xml file from https://maven.apache.org/guides/introduction/introduction-to-the-pom.html and update the values on the command line.
+- task: PowerShell@1
+  displayName: Publish ispac file to ssiscicd Artifact feed
+  inputs:
+    scriptType: 'inlineScript'
+    inlineScript: |
+      $settingsPath = "settings.xml"; 
+      Set-Content -Path $settingsPath -Value $env:MAVEN_CRED;
+      $minimalPomPath = "pom.xml"; 
+      Set-Content -Path $minimalPomPath -Value @"
+      <project>
+      <modelVersion>4.0.0</modelVersion>
+      <groupId>com.mycompany.app</groupId>
+      <artifactId>my-app</artifactId>
+      <version>1</version>
+      </project>
+      "@;
+      & "C:\agentTools\maven\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/_packaging/artifactsdemo/maven/v1 -DgroupId="org.teachforamerica.ssiscicd.artifacts.demo" -DartifactId=$(projectName) -Dversion="1.0.$(Build.BuildId)" -Dfile=$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)\bin\Development\$(projectName).ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-artifactsdemo deploy:deploy-file -e
+  env:
+    MAVEN_CRED: $(azureArtifactsDemoCred)
