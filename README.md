@@ -22,6 +22,7 @@ ANNOYANCE @MICROSOFT: Why is not possible to extract the commandOutput easily in
     1. Install OpenJDK because Java is required by Maven (https://jdk.java.net/13/)
         1. I unpack to C:\agentTools\java
         1. Add C:\agentTools\java\jdk-13.0.1\bin to your path
+        1. Add the JAVA_HOME env variable with the value C:\agentTools\java\jdk-13.0.1\bin
     1. Install maven by downloading and following these instructions
         1. https://maven.apache.org/download.cgi
         1. https://maven.apache.org/install.html
