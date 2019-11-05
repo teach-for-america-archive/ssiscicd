@@ -81,6 +81,7 @@
   <ItemGroup>
     <Build Include="Security\UT_PKG_PersonPhone_Load.sql" />
     <Build Include="UT_PKG_PersonPhone_Load\test ssis record reject when Phone Number is Maine-based.sql" />
+    <Build Include="UT_PKG_PersonPhone_Load\test ssis record reject when Phone Number is Long Island-based.sql" />
   </ItemGroup>
   <Target Name="DownloadTSQLTdacpac">
     <DownloadFile SourceUrl="$(tsqlt_ArchivaDownloadUrl)" DestinationFolder="$(MSBuildProjectDirectory)\Referenced Databases" DestinationFileName="$(tsqlt_artifactId).dacpac">
