@@ -6,7 +6,7 @@
 name: $(TeamProject)-Maven-$(Date:yyyyMMdd)$(Rev:-r)
 
 variables:
-    projectName: AzureArtifactsDemo
+    projectName: AdventureWorksExample
 
 trigger:
 - master
