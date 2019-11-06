@@ -33,12 +33,7 @@ ANNOYANCE @MICROSOFT: Why is not possible to extract the commandOutput easily in
     1. Install Microsoft® ODBC Driver 17 for SQL Server® - Windows, Linux, & macOS, https://www.microsoft.com/en-us/download/details.aspx?id=56567
     1. Install sqlcmd.exe to run unit tests from self-hosted agent https://docs.microsoft.com/en-us/sql/tools/sqlcmd-utility?view=sql-server-ver15
 1. Setup the agent on the VM, so that Azure DevOps Pipelines can run builds on this machine (https://docs.microsoft.com/en-us/azure/devops/pipelines/agents/v2-windows?view=azure-devops)
-
-
-
-
-## Setup VM for compiling container image
-- Make sure to clone the master.dacpac and msdb.dacpac to the server, otherwise tsqlt will not deploy.
+    1. Pro-tip: set everything up, get it to work, and then commit to killing the VM and using it to create a custom image. Before you do that though, run `./config.cmd remove` in powershell, so that you can configure each new instance of the image as a unique build agent in Azure DevOps.
 
 ## Setup Developer Database/AKS
 - https://docs.microsoft.com/en-us/azure/aks/windows-container-cli
