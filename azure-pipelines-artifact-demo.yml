@@ -60,6 +60,6 @@ steps:
       <version>1</version>
       </project>
       "@;
-      & "C:\agentTools\maven\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/_packaging/passdemo/maven/v1 -DgroupId="org.teachforamerica.ssiscicd.artifacts.demo" -DartifactId=$(projectName) -Dversion="1.0.$(Build.BuildId)" -Dfile=$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)\bin\Development\$(projectName).ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-passdemo deploy:deploy-file -e
+      & "C:\agentTools\maven\apache-maven-3.6.2\bin\mvn.cmd" -s settings.xml -Durl=https://pkgs.dev.azure.com/elizabethbaron/_packaging/passsummitdemo/maven/v1 -DgroupId="org.teachforamerica.ssiscicd.artifacts.demo" -DartifactId=$(projectName) -Dversion="1.0.$(Build.BuildId)" -Dfile=$(Agent.BuildDirectory)\source\SLN_$(projectName)\$(projectName)\bin\Development\$(projectName).ispac -Dpackaging=ispac -DrepositoryId=dev-azure-com-elizabethbaron-passsummitdemo deploy:deploy-file -e
   env:
-    MAVEN_CRED: $(passDemoCred)
+    MAVEN_CRED: $(passCred)
