@@ -12,8 +12,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="PKG_PersonPhone_Load"
   DTS:PackageType="5"
-  DTS:VersionBuild="20"
-  DTS:VersionGUID="{90B9B424-EDFB-44FF-ADD8-BB88815574A9}">
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{BEC9E113-96A4-4362-801F-0C1EA0EE1AFD}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -136,6 +136,34 @@
                       dataType="System.Int32"
                       description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
                       name="EvaluationOrder">2</property>
+                  </properties>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Load Tgt PersonPhone Table\Conditional Split.Outputs[Long Island based phone numbers]"
+                  description="Output 4 of the Conditional Split Transformation"
+                  errorOrTruncationOperation="Computation"
+                  errorRowDisposition="FailComponent"
+                  exclusionGroup="1"
+                  name="Long Island based phone numbers"
+                  synchronousInputId="Package\Load Tgt PersonPhone Table\Conditional Split.Inputs[Conditional Split Input]"
+                  truncationRowDisposition="FailComponent">
+                  <properties>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                      name="Expression">[FINDSTRING](#{Package\Load Tgt PersonPhone Table\Extract PersonPhone.Outputs[OLE DB Source Output].Columns[PhoneNumber]},"516",1) == 1</property>
+                    <property
+                      containsID="true"
+                      dataType="System.String"
+                      description="Specifies the friendly version of the expression. This expression version uses column names."
+                      expressionType="Notify"
+                      name="FriendlyExpression">FINDSTRING(PhoneNumber,"516",1) == 1</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                      name="EvaluationOrder">3</property>
                   </properties>
                   <externalMetadataColumns />
                 </output>
@@ -541,11 +569,11 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="222,42"
+          Size="222.4,41.6"
           Id="Package\Load Tgt PersonPhone Table"
           TopLeft="370.5,191.5" />
         <NodeLayout
-          Size="241,42"
+          Size="240.8,41.6"
           Id="Package\Truncate Tgt PersonPhone Table"
           TopLeft="365,74" />
         <EdgeLayout
@@ -579,15 +607,15 @@
       <GraphLayout
         Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="159,42"
+          Size="159.2,41.6"
           Id="Package\Load Tgt PersonPhone Table\Conditional Split"
           TopLeft="279,205" />
         <NodeLayout
-          Size="183,42"
+          Size="183.2,41.6"
           Id="Package\Load Tgt PersonPhone Table\Extract PersonPhone"
           TopLeft="273,81" />
         <NodeLayout
-          Size="173,42"
+          Size="172.8,41.6"
           Id="Package\Load Tgt PersonPhone Table\Load PersonPhone"
           TopLeft="275,345" />
         <EdgeLayout
